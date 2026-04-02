@@ -303,7 +303,7 @@ iOS-specific requirements for MASVS-PLATFORM-1, MASVS-PLATFORM-2, and MASVS-PLAT
 
 #### PLATFORM-IOS-1.1: Universal Links
 
-Security-sensitive deep links MUST use Universal Links with a verified AASA file. Custom URL schemes MUST NOT be used for authentication callbacks, payment flows, or sensitive navigation.
+Security-sensitive deep links SHOULD prefer Universal Links with a verified AASA file. If custom URL schemes are retained for compatibility or interoperability, they MUST apply the same input validation, origin checks, and user-confirmation requirements as any other untrusted entry point.
 
 **Testable:** Verify AASA file is hosted and valid. Test that custom scheme is not used for sensitive entry points. Verify Universal Link handling in `application(_:continue:restorationHandler:)`.
 

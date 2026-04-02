@@ -152,7 +152,7 @@ The app is transparent about data collection and usage.
 
 ### Description
 
-Users have the right to understand how their data is collected, stored, processed, and shared. Make sure transparency.
+Users need clear visibility into how their data is collected, stored, processed, and shared. This section combines Android-facing transparency controls with closely related Google Play disclosure obligations.
 
 ### Android Sub-Requirements
 
@@ -197,14 +197,14 @@ Users should have meaningful control over their personal data. Make sure the app
 
 #### MASVS-PRIVACY-4.1 - Provide Data Deletion Capability
 
-The app provides a mechanism for users to request deletion of their account and associated data. Accessible from within the app and from a web URL.
+Where the product offers accounts or stores personal data beyond what is required for immediate app operation, the app or associated service provides a mechanism for users to request deletion of their account and associated data. When Google Play policy or applicable regulation requires it, this capability should be accessible from within the app and from a web URL.
 
 **Android References:**
 - Google Play policy requires a data deletion URL
 
 #### MASVS-PRIVACY-4.2 - Allow Granular Consent Management
 
-The app provides a consent management interface where the user can grant or deny consent per purpose, modify choices at any time, withdraw consent easily, and see which data types are collected.
+Where the product relies on consent-based collection or sharing, the app provides a consent management interface where the user can grant or deny consent per purpose, modify choices, and withdraw consent.
 
 #### MASVS-PRIVACY-4.3 - Respect Consent Withdrawal
 
@@ -212,7 +212,7 @@ When a user revokes consent: The app immediately stops the associated data colle
 
 #### MASVS-PRIVACY-4.4 - Support Data Export / Portability
 
-For apps subject to GDPR or similar, the app provides data export in machine-readable format (JSON, CSV).
+For apps subject to GDPR, contractual portability requirements, or similar obligations, the app or associated service provides data export in a machine-readable format such as JSON or CSV.
 
 #### MASVS-PRIVACY-4.5 - Re-Prompt on Expanded Data Collection
 

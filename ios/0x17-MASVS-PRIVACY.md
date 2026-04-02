@@ -2,7 +2,7 @@
 
 ## Overview
 
-iOS has led the industry in privacy enforcement. App Tracking Transparency (ATT, iOS 14.5+) requires user permission before cross-app tracking, with 75%+ of users opting out. Privacy Nutrition Labels on the App Store declare data practices before download. Link Tracking Protection (iOS 17+) strips tracking parameters from URLs. Locked and Hidden Apps (iOS 18) let users lock apps behind biometric authentication. Make sure apps practice data minimization, obtain proper consent, prevent tracking, and give users control over their data.
+iOS has led the industry in privacy enforcement. App Tracking Transparency (ATT, iOS 14.5+) requires user permission before cross-app tracking. Privacy Nutrition Labels on the App Store declare data practices before download. Link Tracking Protection (iOS 17+) strips tracking parameters from URLs. Make sure apps practice data minimization, obtain proper consent, prevent tracking, and give users control over their data. Version-specific privacy features in newer Apple releases should be validated before being treated as baseline requirements.
 
 ## iOS Privacy Evolution
 
@@ -81,7 +81,7 @@ The app does not access location, microphone, or camera in the background unless
 
 #### MASVS-PRIVACY-1.7 - Respect iOS 18 Locked/Hidden Apps
 
-If the app handles sensitive content, it supports the Locked Apps feature and does not surface sensitive data via notifications or Siri when the app is locked.
+If the app handles sensitive content and the current iOS version exposes app-locking or hidden-app behaviors, the app SHOULD avoid surfacing sensitive data via notifications, Siri, or similar surfaces when the user expects the app to be protected.
 
 **Rationale:** Users who lock apps behind biometric expect their content to be fully hidden.
 
@@ -183,19 +183,19 @@ The app offers user control over their data.
 
 ### Description
 
-Users must be able to delete their data, manage consent, and export their information. Apple requires account deletion for apps with account creation.
+Users must be able to delete their data, manage consent, and export their information where the product's data model, platform policy, or applicable regulation requires it. This section combines iOS-facing privacy controls with related App Store and regulatory obligations.
 
 ### iOS Sub-Requirements
 
 #### MASVS-PRIVACY-4.1 - Provide Account and Data Deletion
 
-The app provides account deletion accessible from within the app and from a web URL. Deletion removes all server-side personal data. Deletion is processed within a documented timeframe. Apple requires this for all apps with account creation.
+Where the product offers account creation or stores personal data beyond immediate app use, the app or associated service provides account and data deletion. When App Store policy or applicable regulation requires it, deletion should be accessible from within the app and from a web URL.
 
 **Rationale:** App Store requirement and privacy regulation compliance.
 
 #### MASVS-PRIVACY-4.2 - Allow Granular Consent Management
 
-The user can grant or deny consent per purpose (analytics, advertising, personalization). Consent choices can be modified at any time. Withdrawal is as easy as granting.
+Where the product relies on consent-based collection or sharing, the user can grant or deny consent per purpose and later modify those choices.
 
 **Rationale:** Bundled consent does not meet GDPR or best practice standards.
 

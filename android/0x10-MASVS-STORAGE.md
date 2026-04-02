@@ -244,11 +244,11 @@ For apps processing financial data or sensitive credentials, cryptographic keys 
 
 **Testable:** Verify `setIsStrongBoxBacked(true)` is set in `KeyGenParameterSpec` for high-value key operations. Verify graceful fallback to TEE-backed Keystore when StrongBox is unavailable.
 
-#### STORAGE-ANDROID-1.3: EncryptedSharedPreferences for Local Data
+#### STORAGE-ANDROID-1.3: Encrypted Key-Value Storage for Local Data
 
-The app MUST use `EncryptedSharedPreferences` (Jetpack Security library) for any sensitive key-value data stored locally. Plain `SharedPreferences` MUST NOT store sensitive data including tokens, credentials, PII, or session identifiers.
+The app MUST use encrypted key-value storage such as `Jetpack DataStore` with Tink-backed encryption, or an equivalent maintained solution, for any sensitive key-value data stored locally. Plain `SharedPreferences` MUST NOT store sensitive data including tokens, credentials, PII, or session identifiers. `EncryptedSharedPreferences` SHOULD be treated as legacy guidance and not selected for new implementations.
 
-**Testable:** Static analysis confirms no sensitive data written to `SharedPreferences`. Dynamic analysis confirms encrypted storage files under `shared_prefs/`.
+**Testable:** Static analysis confirms no sensitive data written to plain `SharedPreferences`. Dynamic analysis confirms the app uses encrypted storage for sensitive key-value data and does not rely on plaintext XML preference files for secrets.
 
 #### STORAGE-ANDROID-1.4: Encrypted Database Storage
 

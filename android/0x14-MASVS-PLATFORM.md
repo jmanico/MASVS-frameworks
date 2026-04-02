@@ -319,7 +319,7 @@ WebView cache, cookies, form data, and local storage MUST be cleared on logout o
 
 #### PLATFORM-ANDROID-3.1: Verified Deep Links (App Links)
 
-The app MUST use Android App Links (verified deep links via `assetlinks.json`) instead of unverified custom URL schemes. Custom URL schemes have no ownership verification and are vulnerable to scheme hijacking.
+For security-sensitive entry points, the app SHOULD prefer Android App Links (verified deep links via `assetlinks.json`) over custom URL schemes. If custom URL schemes are retained for compatibility or interoperability, they MUST NOT auto-execute sensitive actions and MUST apply the same input validation and user-confirmation requirements as any other untrusted deep link.
 
 **Testable:** Verify `autoVerify="true"` on intent filters. Verify `.well-known/assetlinks.json` is hosted and valid. Verify custom URL scheme is not used for sensitive actions.
 
@@ -343,7 +343,7 @@ On Android 14+, the app SHOULD use selected photos access (partial media access)
 
 #### PLATFORM-ANDROID-3.5: QR Code and NFC Input Validation
 
-Decoded QR code and NFC data MUST be treated as untrusted input. The app MUST display the decoded URL to the user before navigating, validate against an allowlist, and MUST NOT auto-execute actions. NFC payloads for payment or authentication MUST be cryptographically signed.
+Decoded QR code and NFC data MUST be treated as untrusted input. The app MUST display decoded URLs to the user before navigating, validate against an allowlist where appropriate, and MUST NOT auto-execute sensitive actions. For payment, authentication, or other high-trust NFC use cases, payload authenticity SHOULD be cryptographically verifiable.
 
 **Testable:** Scan QR code with malicious URL. Verify URL is displayed for user confirmation. Verify non-allowlisted URLs are blocked or warned.
 

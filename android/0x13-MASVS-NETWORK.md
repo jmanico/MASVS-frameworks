@@ -209,27 +209,26 @@ All API requests MUST use HTTPS. Authentication tokens MUST be sent in the `Auth
 
 **Testable:** Inspect all API traffic. Verify HTTPS-only, header-based auth, no token leakage in URLs, appropriate cache headers.
 
-#### NETWORK-ANDROID-1.6: Android 17 Cleartext Deprecation
+#### NETWORK-ANDROID-1.6: Prefer Network Security Config for Cleartext Policy
 
-For apps targeting Android 17 (API 37+), the `usesCleartextTraffic` manifest attribute is deprecated. The app MUST use Network Security Configuration exclusively for traffic policy.
+For apps targeting modern Android versions, the app SHOULD define cleartext policy in Network Security Configuration rather than relying on `usesCleartextTraffic` alone. If `usesCleartextTraffic` is present, it MUST NOT contradict the Network Security Configuration policy.
 
-**Testable:** Verify apps targeting SDK 37+ use NSC instead of manifest attribute for cleartext policy.
+**Testable:** Inspect the manifest and `res/xml/network_security_config.xml`. Verify cleartext policy is defined consistently and that release builds do not permit undocumented cleartext exceptions.
 
 ### MASVS-NETWORK-2: Certificate Transparency and Pinning
 
 #### NETWORK-ANDROID-2.1: Certificate Transparency
 
-On Android 17+, Certificate Transparency (CT) is enabled by default. For earlier Android versions, the app SHOULD verify CT compliance of server certificates where feasible.
+On Android 17+ (API 37+), Certificate Transparency (CT) is enabled by default unless the app opts out. On Android 16 (API 36), the app SHOULD opt in to CT for public, developer-controlled endpoints where certificate logging requirements are operationally acceptable. On Android 15 and lower, CT is not available through Android's Network Security Configuration.
 
-**Rationale:** The industry has moved from certificate pinning to Certificate Transparency. Android 14 removed `pin-set` support from NSC. CT provides better security with lower operational risk than pinning (no risk of bricking the app on certificate rotation).
+**Rationale:** CT provides an additional check that publicly trusted certificates were logged. It is complementary to certificate pinning, not a replacement for the control's identity-pinning requirement.
 
-**Testable:** On Android 17+, verify CT enforcement is active (not disabled). On earlier versions, verify CT compliance checking if implemented.
+**Testable:** On Android 17+, verify CT is not disabled for covered domains unless there is a documented exception. On Android 16, verify CT opt-in where the app claims to enforce it.
 
-#### NETWORK-ANDROID-2.2: Certificate Pinning (Legacy/High-Security Only)
+#### NETWORK-ANDROID-2.2: Certificate Pinning for Covered Endpoints
+Certificate pinning MUST use SPKI pins in Network Security Configuration for developer-controlled endpoints covered by this control. Every pin set MUST include at least one backup pin and a documented rotation procedure. For apps with complex endpoint ownership or operational constraints, any decision to scope or omit pinning for specific domains MUST be explicitly documented and justified.
 
-Certificate pinning SHOULD NOT be used for most applications due to operational risks (certificate rotation failures, CA root expiry incidents like Let's Encrypt 2021). Pinning is acceptable ONLY for very high-security apps that have mature certificate rotation procedures and incident response plans. If pinning is used, it MUST: Pin to the public key (SPKI), not the full certificate; Include at least one backup pin; Implement a reporting mechanism for pin failures; Have a documented rotation procedure.
-
-**Testable:** If pinning is present, verify SPKI pinning, backup pin, and failure reporting. If pinning is absent, verify CT compliance per NETWORK-ANDROID-2.1.
+**Testable:** Verify `network_security_config.xml` contains SPKI pinning for covered domains, includes a backup pin, and that operational documentation exists for rotation or any approved exception.
 
 #### NETWORK-ANDROID-2.3: Full Certificate Chain Validation
 

@@ -260,7 +260,7 @@ On logout, the app MUST call the server-side token revocation endpoint, clear al
 
 #### AUTH-ANDROID-1.6: Credential Manager for Passkeys
 
-The app SHOULD use the Android Credential Manager API (available since Android 9 via Play Services) for passkey (FIDO2/WebAuthn) authentication. Passkey private keys MUST be stored in hardware (Keystore).
+The app SHOULD use the Android Credential Manager API for passkey (FIDO2/WebAuthn) authentication and rely on the platform or credential-provider security model for key protection. The app SHOULD NOT implement custom passkey storage or bypass platform-managed credential flows.
 
 **Testable:** Verify `CredentialManager.create()` / `CredentialManager.get()` API usage. Verify WebAuthn registration/authentication flows complete successfully.
 
