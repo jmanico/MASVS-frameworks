@@ -1,7 +1,6 @@
 # OWASP MASVS for Android
 
 [![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg)](https://owasp.org/www-project-mobile-app-security/)
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
 **An Android-specific adaptation of the [OWASP Mobile Application Security Verification Standard (MASVS)](https://github.com/OWASP/owasp-masvs)** with detailed, platform-native requirements, API-level guidance, and implementation references.
 
@@ -67,12 +66,6 @@ Every control in this document maps 1:1 to the upstream OWASP MASVS v2.x control
 2. Create a feature branch
 3. Submit a pull request with a clear description of the change
 4. Reference the upstream MASVS control ID and any Android documentation links
-
-## License
-
-This work is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
-
-Based on the [OWASP MASVS](https://github.com/OWASP/owasp-masvs) by the OWASP Foundation.
 
 ## Acknowledgments
 
