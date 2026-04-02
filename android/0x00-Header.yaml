@@ -1,0 +1,36 @@
+metadata:
+  title: OWASP MASVS for Android
+  remarks: >
+    An Android-specific adaptation of the OWASP Mobile Application Security
+    Verification Standard (MASVS) with detailed, platform-native requirements,
+    API-level guidance, and implementation references. This is a community fork
+    maintained for teams that need Android-specific security requirements.
+  version: v1.0.0
+  upstream: OWASP MASVS v2.1.0
+  platform: Android 10 (API 29) through Android 17 (API 37)
+
+chapters:
+  - id: 0x10
+    title: MASVS-STORAGE
+    name: Secure Data Storage at Rest
+  - id: 0x11
+    title: MASVS-CRYPTO
+    name: Cryptography
+  - id: 0x12
+    title: MASVS-AUTH
+    name: Authentication and Authorization
+  - id: 0x13
+    title: MASVS-NETWORK
+    name: Network Communication
+  - id: 0x14
+    title: MASVS-PLATFORM
+    name: Platform Interaction
+  - id: 0x15
+    title: MASVS-CODE
+    name: Code Quality and Supply Chain
+  - id: 0x16
+    title: MASVS-RESILIENCE
+    name: Resilience Against Reverse Engineering and Tampering
+  - id: 0x17
+    title: MASVS-PRIVACY
+    name: Privacy
