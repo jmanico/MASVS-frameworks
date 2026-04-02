@@ -3,7 +3,7 @@
 [![OWASP Incubator](https://img.shields.io/badge/owasp-incubator-blue.svg)](https://owasp.org/www-project-mobile-app-security/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 
-Platform-specific security verification requirements extending the [OWASP Mobile Application Security Verification Standard (MASVS)](https://github.com/OWASP/owasp-masvs). The upstream MASVS is intentionally platform-agnostic — this project provides concrete, testable sub-requirements for each mobile platform.
+Platform-specific security verification requirements extending the [OWASP Mobile Application Security Verification Standard (MASVS)](https://github.com/OWASP/owasp-masvs). The upstream MASVS is intentionally platform-agnostic. This project provides concrete, testable sub-requirements for each mobile platform.
 
 **This is NOT an official OWASP project.** It is a community resource maintained by [Jim Manico](https://github.com/jmanico) for teams that need platform-specific security requirements they can hand directly to developers, auditors, and pentesters.
 

@@ -4,7 +4,7 @@ iOS-specific security verification requirements extending [OWASP MASVS v2.1.0](h
 
 ## Status
 
-**Planned** — iOS-specific requirements are under development. Target coverage: iOS 16 through iOS 26.
+**Planned.** iOS-specific requirements are under development. Target coverage: iOS 16 through iOS 26.
 
 Expected control groups (mirroring MASVS):
 
