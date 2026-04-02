@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android's component model - Activities, Services, Broadcast Receivers, and Content Providers - combined with the Intent system, WebViews, and deep links, creates a rich but complex attack surface. Every exported component is an entry point accessible to any app on the device. WebViews bridge web content to native code. Deep links expose the app to the internet. Make sure all platform interactions are secured against the Android-specific attack patterns that exploit these mechanisms.
+Android's component model (Activities, Services, Broadcast Receivers, and Content Providers), combined with the Intent system, WebViews, and deep links, creates a rich but complex attack surface. Every exported component is an entry point accessible to any app on the device. WebViews bridge web content to native code. Deep links expose the app to the internet. Make sure all platform interactions are secured against the Android-specific attack patterns that exploit these mechanisms.
 
 ## Android IPC Attack Surface
 
@@ -54,7 +54,7 @@ The app uses IPC mechanisms securely.
 
 ### Description
 
-Android's Inter-Process Communication (IPC) mechanisms - Intents, Content Providers, Broadcast Receivers, and Services - are fundamental to the platform but also a major attack surface. Exported components are accessible to any app on the device. Implicit intents can be intercepted. Content Providers can leak data or be exploited via SQL injection and path traversal. Make sure all IPC interactions on Android are secured against common attack patterns.
+Android's Inter-Process Communication (IPC) mechanisms (Intents, Content Providers, Broadcast Receivers, and Services) are fundamental to the platform but also a major attack surface. Exported components are accessible to any app on the device. Implicit intents can be intercepted. Content Providers can leak data or be exploited via SQL injection and path traversal. Make sure all IPC interactions on Android are secured against common attack patterns.
 
 ### Android Sub-Requirements
 
@@ -82,7 +82,7 @@ The app uses explicit intents (specifying the target component by `ComponentName
 
 #### MASVS-PLATFORM-1.4 - Validate All Intent Data
 
-The app validates and sanitizes all data received from intents - extras, data URIs, actions, categories, and clipData. The app does not blindly trust intent data, even from seemingly trusted sources. Specific validations: URI scheme, host, and path are validated against an allowlist; Intent extras are type-checked and range-validated; The app does not call `Intent.parseUri()` or `Intent.getParcelableExtra()` on untrusted data without validation; Deep links are validated against expected patterns before navigating.
+The app validates and sanitizes all data received from intents, including extras, data URIs, actions, categories, and clipData. The app does not blindly trust intent data, even from seemingly trusted sources. Specific validations: URI scheme, host, and path are validated against an allowlist; Intent extras are type-checked and range-validated; The app does not call `Intent.parseUri()` or `Intent.getParcelableExtra()` on untrusted data without validation; Deep links are validated against expected patterns before navigating.
 
 #### MASVS-PLATFORM-1.5 - Prevent Intent Redirection
 
@@ -98,7 +98,7 @@ The app does not forward or redirect user-controlled Intent data to `startActivi
 
 All `PendingIntent` objects are created with `PendingIntent.FLAG_IMMUTABLE` unless the app requires the intent to be modified by the receiving app (in which case `FLAG_MUTABLE` is used with explicit component, action, and package set on the inner intent).
 
-**Rationale:** Mutable PendingIntents with implicit inner intents can be hijacked - a malicious app can fill in the unspecified fields to redirect the PendingIntent to its own component. `FLAG_IMMUTABLE` is required for apps targeting API 31+.
+**Rationale:** Mutable PendingIntents with implicit inner intents can be hijacked. A malicious app can fill in the unspecified fields to redirect the PendingIntent to its own component. `FLAG_IMMUTABLE` is required for apps targeting API 31+.
 
 **Android References:**
 - `PendingIntent.getActivity(context, requestCode, intent, FLAG_IMMUTABLE)`
@@ -138,7 +138,7 @@ The app uses WebViews securely.
 
 ### Description
 
-Android WebViews (`android.webkit.WebView`) embed web content within native apps and bridge JavaScript to native code. Misconfigured WebViews are a major attack surface - they can expose native functionality to malicious web content, leak sensitive data through caches and cookies, and enable cross-site scripting within the app's context. Make sure WebViews are configured with the principle of least privilege and that JavaScript bridges are properly secured.
+Android WebViews (`android.webkit.WebView`) embed web content within native apps and bridge JavaScript to native code. Misconfigured WebViews are a major attack surface. They can expose native functionality to malicious web content, leak sensitive data through caches and cookies, and enable cross-site scripting within the app's context. Make sure WebViews are configured with the principle of least privilege and that JavaScript bridges are properly secured.
 
 ### Android Sub-Requirements
 
@@ -152,7 +152,7 @@ WebViews have JavaScript disabled by default (`WebSettings.setJavaScriptEnabled(
 
 If `addJavascriptInterface()` is used: The interface object exposes only the minimum necessary methods; All methods annotated with `@JavascriptInterface` validate their inputs; The interface does not expose access to sensitive data, file system operations, or native capabilities that could be abused; The WebView only loads content from trusted, verified origins.
 
-**Rationale:** `addJavascriptInterface()` exposes native Java/Kotlin methods to JavaScript running in the WebView. On API 16 and below, all public methods (including inherited ones from `Object`) were accessible - a critical RCE vulnerability. On API 17+, only `@JavascriptInterface`-annotated methods are exposed, but they remain callable by any JavaScript running in the WebView.
+**Rationale:** `addJavascriptInterface()` exposes native Java/Kotlin methods to JavaScript running in the WebView. On API 16 and below, all public methods (including inherited ones from `Object`) were accessible, which was a critical RCE vulnerability. On API 17+, only `@JavascriptInterface`-annotated methods are exposed, but they remain callable by any JavaScript running in the WebView.
 
 #### MASVS-PLATFORM-2.3 - Disable File Access in WebViews
 
@@ -201,7 +201,7 @@ The app uses the user interface securely.
 
 ### Description
 
-Sensitive data displayed in the Android UI - passwords, credit card numbers, OTP codes, financial balances - can be exposed through platform mechanisms such as screenshots for the Recent Apps screen, screen overlays (tapjacking), shoulder surfing, screen sharing, and accessibility services. Make sure the app's UI properly protects displayed sensitive information using Android-specific mitigations.
+Sensitive data displayed in the Android UI (passwords, credit card numbers, OTP codes, financial balances) can be exposed through platform mechanisms such as screenshots for the Recent Apps screen, screen overlays (tapjacking), shoulder surfing, screen sharing, and accessibility services. Make sure the app's UI properly protects displayed sensitive information using Android-specific mitigations.
 
 ### Android Sub-Requirements
 
@@ -227,7 +227,7 @@ Activities displaying sensitive information set `FLAG_SECURE` to prevent screens
 
 On Android 15+, apps handling sensitive data register a `WindowManager.addScreenRecordingCallback()` to detect when the screen is being recorded and take appropriate action (obscuring sensitive content, pausing sensitive operations, or notifying the user).
 
-**Rationale:** `FLAG_SECURE` prevents screenshots and recording. The screen recording callback provides additional awareness - the app can adjust behavior (e.g., hide account balances) when recording is active, even for non-FLAG_SECURE screens.
+**Rationale:** `FLAG_SECURE` prevents screenshots and recording. The screen recording callback provides additional awareness. The app can adjust behavior (e.g., hide account balances) when recording is active, even for non-FLAG_SECURE screens.
 
 #### MASVS-PLATFORM-3.4 - Mask Sensitive Data in the UI
 
@@ -331,7 +331,7 @@ All parameters received via deep links MUST be treated as untrusted input and va
 
 #### PLATFORM-ANDROID-3.3: Minimum Permissions at Point of Use
 
-The app MUST request only the minimum necessary runtime permissions, and MUST request them at the point of use with contextual explanation - not at app launch. The app MUST use `shouldShowRequestPermissionRationale()` to provide context.
+The app MUST request only the minimum necessary runtime permissions, and MUST request them at the point of use with contextual explanation, not at app launch. The app MUST use `shouldShowRequestPermissionRationale()` to provide context.
 
 **Testable:** Launch app fresh. Verify no permission requests at startup. Trigger feature requiring permission. Verify contextual rationale is shown before request.
 

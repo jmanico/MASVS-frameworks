@@ -2,7 +2,7 @@
 
 ## Overview
 
-Mobile apps frequently store data locally on the device. Android provides multiple storage mechanisms - internal storage (app-sandboxed), external/shared storage, SharedPreferences, SQLite databases, the AndroidKeyStore, and file-based encryption. Each has different security properties. Make sure sensitive data is stored using the most appropriate mechanism with proper encryption and access controls.
+Mobile apps frequently store data locally on the device. Android provides multiple storage mechanisms, including internal storage (app-sandboxed), external/shared storage, SharedPreferences, SQLite databases, the AndroidKeyStore, and file-based encryption. Each has different security properties. Make sure sensitive data is stored using the most appropriate mechanism with proper encryption and access controls.
 
 ## Android Storage Landscape
 
@@ -41,7 +41,7 @@ The app securely stores sensitive data.
 
 ### Description
 
-Android apps handle sensitive data from many sources - user input, backend APIs, system services, and other apps - and frequently need to persist it locally. Android provides multiple storage locations with different security properties: internal storage (app-sandboxed), external storage (shared), SharedPreferences, databases, and the AndroidKeyStore. Make sure any sensitive data intentionally stored by the app is properly protected using Android-specific storage mechanisms, encryption APIs, and access controls.
+Android apps handle sensitive data from many sources (user input, backend APIs, system services, and other apps) and frequently need to persist it locally. Android provides multiple storage locations with different security properties: internal storage (app-sandboxed), external storage (shared), SharedPreferences, databases, and the AndroidKeyStore. Make sure any sensitive data intentionally stored by the app is properly protected using Android-specific storage mechanisms, encryption APIs, and access controls.
 
 ### Android Sub-Requirements
 
@@ -134,7 +134,7 @@ The app prevents leakage of sensitive data.
 
 ### Description
 
-Sensitive data can be unintentionally exposed through Android platform mechanisms - system logs, clipboard, screenshots, keyboard caches, backups, crash reports, and notification content. These leaks occur as side-effects of using standard APIs and system features. Make sure developers actively prevent these unintentional data exposures using Android-specific mitigations.
+Sensitive data can be unintentionally exposed through Android platform mechanisms such as system logs, clipboard, screenshots, keyboard caches, backups, crash reports, and notification content. These leaks occur as side-effects of using standard APIs and system features. Make sure developers actively prevent these unintentional data exposures using Android-specific mitigations.
 
 ### Android Sub-Requirements
 

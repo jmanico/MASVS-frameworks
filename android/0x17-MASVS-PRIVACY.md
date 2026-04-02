@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android's privacy landscape has evolved dramatically - from the early days of broad permissions and unlimited identifier access to modern granular runtime permissions, scoped storage, restricted identifiers, privacy indicators, and the Privacy Sandbox. Make sure Android apps practice data minimization, use privacy-preserving identifiers, provide transparent disclosures, and give users meaningful control over their data.
+Android's privacy landscape has evolved dramatically, from the early days of broad permissions and unlimited identifier access to modern granular runtime permissions, scoped storage, restricted identifiers, privacy indicators, and the Privacy Sandbox. Make sure Android apps practice data minimization, use privacy-preserving identifiers, provide transparent disclosures, and give users meaningful control over their data.
 
 ## Android Privacy Evolution
 
@@ -51,7 +51,7 @@ The app minimizes access to sensitive data and resources.
 
 ### Description
 
-Android apps should only request access to the data and system resources they absolutely need. Android's permission model has evolved significantly - from install-time grants to runtime permissions, one-time permissions, partial grants, and auto-revocation. Make sure apps practice data minimization, request only necessary permissions, and enforce that third-party SDKs respect the same constraints.
+Android apps should only request access to the data and system resources they absolutely need. Android's permission model has evolved significantly, from install-time grants to runtime permissions, one-time permissions, partial grants, and auto-revocation. Make sure apps practice data minimization, request only necessary permissions, and enforce that third-party SDKs respect the same constraints.
 
 ### Android Sub-Requirements
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android apps authenticate users through remote protocols (OAuth 2.0, OpenID Connect, passkeys) and local mechanisms (BiometricPrompt, device credentials). Both paths have Android-specific implementation requirements. Make sure authentication is implemented securely on the Android client - using the Credential Manager API, crypto-bound biometrics, and proper token management - while recognizing that server-side enforcement is the authoritative control.
+Android apps authenticate users through remote protocols (OAuth 2.0, OpenID Connect, passkeys) and local mechanisms (BiometricPrompt, device credentials). Both paths have Android-specific implementation requirements. Make sure authentication is implemented securely on the Android client, using the Credential Manager API, crypto-bound biometrics, and proper token management, while recognizing that server-side enforcement is the authoritative control.
 
 ## Android Authentication Architecture
 
@@ -62,7 +62,7 @@ The app uses secure authentication and authorization protocols and follows the r
 
 ### Description
 
-Most Android apps connect to remote endpoints that require user authentication and enforce authorization. While server-side enforcement is critical, the Android client must also implement authentication flows securely - protecting tokens in transit and at rest, using platform-provided credential management, and avoiding implementation patterns that expose credentials to interception or replay. This control covers secure use of authentication protocols on the Android client side.
+Most Android apps connect to remote endpoints that require user authentication and enforce authorization. While server-side enforcement is critical, the Android client must also implement authentication flows securely by protecting tokens in transit and at rest, using platform-provided credential management, and avoiding implementation patterns that expose credentials to interception or replay. This control covers secure use of authentication protocols on the Android client side.
 
 ### Android Sub-Requirements
 
@@ -118,7 +118,7 @@ The app performs local authentication securely according to the platform best pr
 
 ### Description
 
-Many Android apps authenticate users locally via biometrics (fingerprint, face) or device credentials (PIN, pattern, password) using the BiometricPrompt API. Local authentication must be implemented correctly to prevent bypass - specifically, authentication results must be cryptographically bound to AndroidKeyStore operations rather than relying solely on callback success/failure booleans. Make sure local authentication on Android is robust against instrumentation and tampering.
+Many Android apps authenticate users locally via biometrics (fingerprint, face) or device credentials (PIN, pattern, password) using the BiometricPrompt API. Local authentication must be implemented correctly to prevent bypass. Specifically, authentication results must be cryptographically bound to AndroidKeyStore operations rather than relying solely on callback success/failure booleans. Make sure local authentication on Android is robust against instrumentation and tampering.
 
 ### Android Sub-Requirements
 
@@ -126,7 +126,7 @@ Many Android apps authenticate users locally via biometrics (fingerprint, face) 
 
 Local biometric authentication uses `BiometricPrompt.authenticate(CryptoObject, ...)` (crypto-bound mode), not `BiometricPrompt.authenticate(...)` (result-only mode). The `CryptoObject` wraps a `Cipher`, `Signature`, or `Mac` initialized with a key from the AndroidKeyStore that requires user authentication.
 
-**Rationale:** Result-only (convenience) authentication returns a success/failure boolean in the `AuthenticationCallback`. On a compromised device, an attacker can hook the callback and force a success result. Crypto-bound authentication ties biometric success to an actual cryptographic operation - the key is only usable after successful biometric verification by the TEE, which cannot be spoofed in software.
+**Rationale:** Result-only (convenience) authentication returns a success/failure boolean in the `AuthenticationCallback`. On a compromised device, an attacker can hook the callback and force a success result. Crypto-bound authentication ties biometric success to an actual cryptographic operation. The key is only usable after successful biometric verification by the TEE, which cannot be spoofed in software.
 
 **Android References:**
 - `BiometricPrompt.authenticate(BiometricPrompt.CryptoObject, BiometricPrompt.PromptInfo)`
@@ -180,7 +180,7 @@ The app secures sensitive operations with additional authentication.
 
 ### Description
 
-Certain operations within an app require additional authentication beyond the initial login - changing account settings, authorizing payments, accessing highly sensitive data, or performing irreversible actions. On Android, this step-up authentication can use BiometricPrompt, the Credential Manager, server-side re-authentication, or Protected Confirmation. Make sure sensitive operations are gated by appropriate additional authentication.
+Certain operations within an app require additional authentication beyond the initial login, such as changing account settings, authorizing payments, accessing highly sensitive data, or performing irreversible actions. On Android, this step-up authentication can use BiometricPrompt, the Credential Manager, server-side re-authentication, or Protected Confirmation. Make sure sensitive operations are gated by appropriate additional authentication.
 
 ### Android Sub-Requirements
 
@@ -204,7 +204,7 @@ For the most critical operations, the AndroidKeyStore key requires per-use authe
 
 #### MASVS-AUTH-3.4 - Implement Server-Side Step-Up Verification
 
-The server independently verifies that step-up authentication was performed before executing the sensitive operation. Client-side authentication gates alone are insufficient - the server must verify a cryptographic proof (signed challenge, attestation) or re-authenticate via a server-side mechanism (OTP, re-entered password).
+The server independently verifies that step-up authentication was performed before executing the sensitive operation. Client-side authentication gates alone are insufficient. The server must verify a cryptographic proof (signed challenge, attestation) or re-authenticate via a server-side mechanism (OTP, re-entered password).
 
 **Rationale:** Client-side authentication checks can be bypassed by modifying the app, hooking callbacks, or directly calling API endpoints. Server-side verification is the authoritative enforcement point.
 

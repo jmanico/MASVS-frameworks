@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android provides a robust, declarative system for network security through the Network Security Configuration (`network_security_config.xml`). This system controls cleartext traffic policy, certificate trust anchors, certificate pinning, and debug overrides - all without writing code. Combined with the platform's default TLS support (TLS 1.2 minimum since API 20, TLS 1.3 since API 29), Android apps have strong foundations for secure networking. Make sure apps use these mechanisms correctly and do not undermine them with insecure custom implementations.
+Android provides a robust, declarative system for network security through the Network Security Configuration (`network_security_config.xml`). This system controls cleartext traffic policy, certificate trust anchors, certificate pinning, and debug overrides, all without writing code. Combined with the platform's default TLS support (TLS 1.2 minimum since API 20, TLS 1.3 since API 29), Android apps have strong foundations for secure networking. Make sure apps use these mechanisms correctly and do not undermine them with insecure custom implementations.
 
 ## Network Security Configuration Reference
 
@@ -193,7 +193,7 @@ The app MUST support TLS 1.2 as minimum and SHOULD prefer TLS 1.3 (available sin
 
 #### NETWORK-ANDROID-1.3: Fail-Closed on TLS Failure
 
-If a TLS connection fails, the app MUST NOT fall back to unencrypted HTTP. All network communication MUST fail closed - no plaintext fallback under any circumstance.
+If a TLS connection fails, the app MUST NOT fall back to unencrypted HTTP. All network communication MUST fail closed with no plaintext fallback under any circumstance.
 
 **Testable:** Simulate TLS failure (invalid cert, handshake timeout). Verify app does not retry over HTTP. Verify appropriate error is displayed.
 

@@ -96,7 +96,7 @@ The app never uses AES in ECB mode (`KeyProperties.BLOCK_MODE_ECB`). ECB encrypt
 
 All initialization vectors (IVs) and nonces are generated using `SecureRandom` (which delegates to the kernel CSPRNG on Android). IVs are never hardcoded, reused across encryptions, or derived deterministically from predictable input.
 
-**Rationale:** IV/nonce reuse in GCM mode is catastrophic - it enables key recovery. AES-GCM requires a unique 96-bit nonce for every encryption operation with the same key.
+**Rationale:** IV/nonce reuse in GCM mode is catastrophic because it enables key recovery. AES-GCM requires a unique 96-bit nonce for every encryption operation with the same key.
 
 **Android References:**
 - `SecureRandom` - backed by `/dev/urandom` on Android

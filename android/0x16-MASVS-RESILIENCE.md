@@ -50,7 +50,7 @@ The app validates the integrity of the platform.
 
 ### Description
 
-Running on a compromised Android platform - rooted devices, unlocked bootloaders, custom ROMs, or devices with Magisk/Xposed - undermines many security controls that depend on platform guarantees (sandboxing, secure storage, biometric integrity). Make sure the app detects platform compromise and responds appropriately, using multiple layered detection techniques and server-side verification via the Google Play Integrity API.
+Running on a compromised Android platform (rooted devices, unlocked bootloaders, custom ROMs, or devices with Magisk/Xposed) undermines many security controls that depend on platform guarantees (sandboxing, secure storage, biometric integrity). Make sure the app detects platform compromise and responds appropriately, using multiple layered detection techniques and server-side verification via the Google Play Integrity API.
 
 ### Android Sub-Requirements
 
@@ -242,7 +242,7 @@ The app implements anti-dynamic analysis techniques.
 
 ### Description
 
-Dynamic analysis - attaching debuggers, hooking functions with Frida, instrumenting with Xposed/LSPosed, and runtime manipulation - allows attackers to modify app behavior. Make sure the app detects and resists dynamic instrumentation.
+Dynamic analysis (attaching debuggers, hooking functions with Frida, instrumenting with Xposed/LSPosed, and runtime manipulation) allows attackers to modify app behavior. Make sure the app detects and resists dynamic instrumentation.
 
 ### Android Sub-Requirements
 

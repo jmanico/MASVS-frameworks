@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android apps are distributed as APK/AAB bundles containing DEX bytecode, native libraries, resources, and third-party dependencies fetched via Gradle from Maven repositories. This distribution model creates attack surface at multiple levels - outdated platform dependencies, unpatched third-party libraries, malicious supply chain injections, and insufficient input validation. Make sure the app maintains code quality, manages its dependency supply chain securely, and validates all untrusted inputs.
+Android apps are distributed as APK/AAB bundles containing DEX bytecode, native libraries, resources, and third-party dependencies fetched via Gradle from Maven repositories. This distribution model creates attack surface at multiple levels: outdated platform dependencies, unpatched third-party libraries, malicious supply chain injections, and insufficient input validation. Make sure the app maintains code quality, manages its dependency supply chain securely, and validates all untrusted inputs.
 
 ## Android Build and Distribution Security
 
@@ -134,7 +134,7 @@ The app only uses software components without known vulnerabilities.
 
 ### Description
 
-Android apps typically include dozens of third-party libraries via Gradle dependencies - networking (OkHttp, Retrofit), image loading (Glide, Coil), analytics, advertising, and more. Each dependency is potential attack surface. Known vulnerabilities in these dependencies can be exploited by attackers. Make sure the app maintains awareness of its dependency tree and addresses known vulnerabilities.
+Android apps typically include dozens of third-party libraries via Gradle dependencies, such as networking (OkHttp, Retrofit), image loading (Glide, Coil), analytics, advertising, and more. Each dependency is potential attack surface. Known vulnerabilities in these dependencies can be exploited by attackers. Make sure the app maintains awareness of its dependency tree and addresses known vulnerabilities.
 
 ### Android Sub-Requirements
 
@@ -226,7 +226,7 @@ Data loaded into WebViews via `loadUrl()`, `loadData()`, `loadDataWithBaseURL()`
 
 Parameters received via deep links are validated against expected patterns, types, and ranges.
 
-**Rationale:** Deep links are externally accessible - any app or website can invoke them.
+**Rationale:** Deep links are externally accessible, and any app or website can invoke them.
 
 #### MASVS-CODE-4.7 - Handle Deserialization Safely
 
