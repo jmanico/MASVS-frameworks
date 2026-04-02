@@ -8,7 +8,6 @@ metadata:
   version: v1.0.0
   upstream: OWASP MASVS v2.1.0
   platform: Android 10 (API 29) through Android 16 (API 36)
-  license: CC BY-SA 4.0
 
 groups:
   - id: MASVS-STORAGE
