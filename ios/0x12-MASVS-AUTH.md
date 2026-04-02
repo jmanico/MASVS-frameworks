@@ -63,9 +63,9 @@ All OAuth 2.0 authorization code flows MUST use PKCE with S256 challenge method.
 
 #### MASVS-AUTH-1.3 - Support Passkeys as Primary Authentication
 
-The app SHOULD support passkeys via `ASAuthorizationPlatformPublicKeyCredentialProvider` (iOS 16+). Passkeys sync via iCloud Keychain. On iOS 18+, the app SHOULD use automatic passkey upgrade prompts for existing password accounts.
+The app SHOULD support passkeys via `ASAuthorizationPlatformPublicKeyCredentialProvider` (iOS 16+). Passkeys are managed through the Apple platform credential system, including iCloud Keychain where enabled. For newer iOS releases, teams SHOULD evaluate relevant platform passkey-upgrade features where they materially improve account security.
 
-**Rationale:** Passkeys eliminate password reuse, phishing, and credential stuffing. Private keys stay on device (or synced within the user's iCloud Keychain). Public keys register with the server. No shared secret crosses the network.
+**Rationale:** Passkeys eliminate password reuse, phishing, and credential stuffing. The app should rely on the platform credential system rather than attempting to manage passkey secrets directly. No shared secret crosses the network.
 
 **iOS Refs:** `ASAuthorizationPlatformPublicKeyCredentialProvider`, `ASAuthorizationController`, `AutoFill` credential provider
 

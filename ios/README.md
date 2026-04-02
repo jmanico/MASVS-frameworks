@@ -48,7 +48,7 @@
 Each chapter contains:
 1. **Overview** - landscape, architecture diagrams, and API reference tables
 2. **Controls** - detailed sub-requirements with rationale and iOS references
-3. **Training-Aligned Requirements** - additional testable requirements from OWASP/Manicode training
+3. **Training-Aligned Requirements** - additional testable requirements from OWASP/Manicode training, currently presented as subsections, tables, or structured lists depending on the chapter
 
 ## Upstream Mapping
 

@@ -61,7 +61,7 @@ Each Android release includes security patches, privacy improvements, and new se
 
 #### MASVS-CODE-1.1 - Set Appropriate minSdkVersion
 
-The app's `minSdkVersion` is set to at least API 28 (Android 9) to ensure baseline security features including: Network Security Configuration with cleartext blocking by default, StrongBox Keystore support, BiometricPrompt API availability, Protected Confirmation support, Hardware security module attestation. For new apps, `minSdkVersion` of API 29 (Android 10) or higher is recommended to benefit from scoped storage, background location restrictions, and TLS 1.3 by default.
+The app's `minSdkVersion` is set to at least API 29 (Android 10), consistent with this framework's supported Android scope. This ensures baseline access to modern platform protections including scoped storage behavior, TLS 1.3 support, and newer privacy and background-execution restrictions. If a team needs to support older Android versions, that decision should be treated as an explicit exception outside this framework's default baseline.
 
 **Android References:**
 - `minSdkVersion` in `build.gradle` / `build.gradle.kts`
@@ -244,9 +244,9 @@ If the app processes NFC (NDEF messages) or Bluetooth data, all received data is
 
 ## Training-Aligned Requirements
 
-Android-specific requirements for MASVS-CODE-1 through MASVS-CODE-4.
+Android-specific training-aligned requirements that supplement this chapter. These groupings are organized by implementation topic and do not redefine the main `MASVS-CODE-1` through `MASVS-CODE-4` control meanings above.
 
-### MASVS-CODE-1: Secure Build Infrastructure
+### Build Integrity and Release Security
 
 #### CODE-ANDROID-1.1: Play App Signing
 
@@ -278,7 +278,7 @@ Release builds MUST have `android:debuggable="false"`. Debug-specific code, logg
 
 **Testable:** Inspect release APK manifest for `debuggable` flag. Verify no debug endpoints are reachable.
 
-### MASVS-CODE-2: Secure Third-Party Libraries
+### Third-Party Libraries
 
 #### CODE-ANDROID-2.1: SDK Supply Chain Vetting
 
@@ -306,7 +306,7 @@ Dependencies MUST be continuously monitored for known CVEs. Vulnerable dependenc
 
 **Testable:** Verify dependency scanning runs in CI/CD.
 
-### MASVS-CODE-3: Input Validation
+### Input Validation
 
 #### CODE-ANDROID-3.1: Untrusted Input Validation
 
@@ -320,7 +320,7 @@ Data passed to WebViews MUST be sanitized to prevent XSS and injection attacks.
 
 **Testable:** Inject JavaScript payloads via WebView input vectors.
 
-### MASVS-CODE-4: Security Update Readiness
+### Update Readiness
 
 #### CODE-ANDROID-4.1: Minimum SDK Version
 

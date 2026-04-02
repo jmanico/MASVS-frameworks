@@ -9,23 +9,26 @@ Platform-specific security verification requirements extending the [OWASP Mobile
 
 ## Platforms
 
-| Platform | Status | Controls | Sub-Requirements |
-|----------|--------|----------|-----------------|
-| [Android](android/) | Active | 24 controls, 144 sub-requirements + 93 training-aligned requirements | Android 10 (API 29) through Android 17 (API 37) |
-| [iOS](ios/) | Planned | Coming soon | iOS 16 through iOS 26 |
+| Platform | Status | Scope | Coverage |
+|----------|--------|-------|----------|
+| [Android](android/) | Active | 8 control groups with platform-specific sub-requirements and training-aligned requirements | Android 10 (API 29) through Android 17 (API 37) |
+| [iOS](ios/) | Draft | 8 control groups with platform-specific sub-requirements and training-aligned requirements | iOS 16 through iOS 26 |
 
 ## How to Use
 
 1. Start with the upstream [OWASP MASVS](https://mas.owasp.org/MASVS/) for platform-agnostic controls
-2. Navigate to your platform directory for implementation-specific requirements
+2. Navigate to your platform directory for implementation-specific requirements and platform-specific usage notes
 3. Use the sub-requirements as a testable checklist for development, audit, or pentest
 
 ## How to Contribute
 
 1. Fork this repository
 2. Create a feature branch
-3. Submit a pull request with a clear description of the change
-4. Reference the upstream MASVS control ID and any platform documentation links
+3. Follow the platform-specific contribution guide for the content you are editing:
+   - [Android contributing guide](android/CONTRIBUTING.md)
+   - [iOS contributing guide](ios/CONTRIBUTING.md)
+4. Submit a pull request with a clear description of the change
+5. Reference the upstream MASVS control ID and any relevant platform documentation links
 
 ## License
 

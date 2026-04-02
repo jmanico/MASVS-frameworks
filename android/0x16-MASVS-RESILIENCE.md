@@ -133,7 +133,7 @@ Without protection, it is relatively straightforward to modify an Android APK - 
 
 #### MASVS-RESILIENCE-2.1 - Verify App Signing Certificate at Runtime
 
-The app verifies its own signing certificate at runtime against a hardcoded expected certificate hash.
+For high-risk apps that need client-side tamper evidence beyond platform attestation, the app SHOULD verify its own signing certificate at runtime against an expected certificate hash or equivalent integrity signal.
 
 **Rationale:** Repackaged APKs must be signed with a different key.
 
@@ -148,7 +148,7 @@ Use the Play Integrity API's `appRecognitionVerdict` to verify server-side that 
 
 #### MASVS-RESILIENCE-2.3 - Detect DEX and Native Library Modifications
 
-The app computes checksums of its DEX files and native libraries at runtime and compares them against expected values.
+For high-risk apps that need additional client-side tamper evidence, the app MAY compute checksums of selected DEX files, native libraries, or other critical assets at runtime and compare them against expected values.
 
 **Rationale:** Attackers modify DEX bytecode to bypass security checks.
 
@@ -195,7 +195,7 @@ R8 is enabled for all release builds with `minifyEnabled true` and `shrinkResour
 
 #### MASVS-RESILIENCE-3.2 - Encrypt String Literals Containing Sensitive Values
 
-Sensitive strings are not present as plaintext in the DEX file.
+High-value apps SHOULD reduce exposure of sensitive string literals in distributed artifacts. Secrets MUST NOT be hardcoded in the APK, and particularly sensitive operational strings SHOULD be removed, derived at runtime, or protected with additional hardening where justified.
 
 **Rationale:** R8 does NOT encrypt strings.
 
@@ -212,7 +212,7 @@ For high-value apps, use commercial obfuscation tools that implement control flo
 
 #### MASVS-RESILIENCE-3.4 - Obfuscate Native Code
 
-If the app contains native libraries, native code is obfuscated using LLVM-based obfuscators with:
+If the app contains native libraries and faces a high reverse-engineering risk, native code SHOULD be further hardened using techniques such as:
 
 - Control flow flattening
 - Instruction substitution
@@ -354,17 +354,17 @@ When tampering is detected, the app MUST: Report the violation to the server, Th
 ### MASVS-RESILIENCE-3: File Integrity
 
 **RESILIENCE-ANDROID-3.1: APK Integrity Verification**
-The app SHOULD verify its own APK signature at runtime.
+For high-risk apps, the app SHOULD verify its own APK signature or equivalent integrity signal at runtime.
 **Testable:** Repackage and resign APK with different key.
 
 **RESILIENCE-ANDROID-3.2: Resource Integrity**
-Critical app resources SHOULD have integrity checks.
+For high-risk apps, critical app resources SHOULD have integrity checks where tampering would materially affect security decisions.
 **Testable:** Modify a critical resource file.
 
 ### MASVS-RESILIENCE-4: Client-Side Security Controls
 
 **RESILIENCE-ANDROID-4.1: RASP Integration**
-High-security apps SHOULD integrate RASP solutions.
+High-risk apps MAY integrate RASP solutions when the threat model and operational cost justify them.
 **Testable:** Verify RASP SDK integration.
 
 **RESILIENCE-ANDROID-4.2: Debugger Detection**

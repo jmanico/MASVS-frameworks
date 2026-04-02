@@ -2,7 +2,7 @@
 
 ## Overview
 
-iOS provides CryptoKit as the modern Swift-native cryptographic framework, the Secure Enclave for hardware-backed key operations, and CommonCrypto as the legacy C API. iOS 26 introduces quantum-secure TLS 1.3 with post-quantum key exchange enabled by default. Make sure the app uses strong cryptography with proper key management and hardware-backed keys where available.
+iOS provides CryptoKit as the modern Swift-native cryptographic framework, the Secure Enclave for hardware-backed key operations, and CommonCrypto as the legacy C API. Make sure the app uses strong cryptography with proper key management and hardware-backed keys where available. Future transport-crypto changes in Apple platforms should be treated as version-specific guidance, not as baseline assumptions.
 
 ## iOS Cryptographic Architecture
 
@@ -147,7 +147,7 @@ For high-security use cases (payment, identity), the app uses `DCAppAttestServic
 
 #### MASVS-CRYPTO-2.6 - iOS 26 Post-Quantum TLS
 
-On iOS 26+, post-quantum TLS 1.3 key exchange is enabled by default. No developer action is needed for transport encryption. For application-layer encryption of long-lived data, evaluate HPKE or hybrid post-quantum schemes.
+If future Apple platform releases enable post-quantum or hybrid TLS behavior by default, no app-side change may be needed for standard transport encryption. For long-lived, high-assurance data protection requirements, teams SHOULD track platform guidance and separately evaluate whether application-layer cryptography needs a post-quantum transition plan.
 
 **Rationale:** Harvest-now-decrypt-later attacks threaten data encrypted today once quantum computers become practical.
 

@@ -256,9 +256,9 @@ When cryptographic operations involve Android Keystore, the app MUST use Keystor
 
 #### CRYPTO-ANDROID-1.5: Post-Quantum Readiness
 
-On Android 17+ (API 37), the app SHOULD evaluate use of HPKE hybrid cryptography (RFC 9180) for forward-looking quantum resistance where supported by the platform SPI.
+For long-lived, high-assurance systems, the team SHOULD track Android and ecosystem support for post-quantum or hybrid cryptography and document whether any transition planning is needed. This is roadmap guidance, not a baseline Android app requirement.
 
-**Testable:** Verify awareness and adoption plan for hybrid post-quantum key exchange on supported API levels.
+**Testable:** Verify documented review of post-quantum transition relevance where the product has long-lived cryptographic risk.
 
 ### MASVS-CRYPTO-2: Key Management
 

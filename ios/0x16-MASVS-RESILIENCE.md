@@ -114,7 +114,7 @@ Without protection, IPA files can be decrypted (from App Store or using frida-io
 
 #### MASVS-RESILIENCE-2.1 - Validate Code Signing at Runtime
 
-The app verifies its `embedded.mobileprovision` and code signature at runtime. Repackaged apps will have a different signing identity.
+For high-risk apps that need client-side tamper evidence beyond platform attestation, the app SHOULD verify its signing identity at runtime.
 
 **Rationale:** IPA repackaging with a different certificate is a common attack vector. Runtime verification of the expected signing identity detects modified binaries.
 
@@ -135,7 +135,7 @@ The app inspects loaded dynamic libraries using `_dyld_image_count()` and `_dyld
 
 #### MASVS-RESILIENCE-2.4 - Use DeviceCheck for Server-Side State
 
-The app uses `DeviceCheck` to maintain 2 bits of per-device state on Apple's servers. Useful for fraud detection, trial abuse prevention, and marking compromised devices.
+Where product abuse prevention or device-level fraud tracking is needed, the app MAY use `DeviceCheck` to maintain limited per-device server-side state.
 
 **iOS References:**
 - `DCDevice.current.generateToken(completionHandler:)`
@@ -178,13 +178,13 @@ Debug information is not included in the distributed binary.
 
 #### MASVS-RESILIENCE-3.2 - Use Commercial Obfuscation for High-Value Apps
 
-Apps handling financial transactions, DRM, or sensitive business logic use commercial obfuscation (iXGuard, Arxan) for string encryption, control flow obfuscation, and class/method renaming.
+High-value apps SHOULD consider commercial obfuscation (iXGuard, Arxan) for string encryption, control flow obfuscation, and class/method renaming when the threat model justifies the added complexity and cost.
 
 **Rationale:** Without obfuscation, class-dump produces readable Objective-C headers and Swift metadata is easily parsed. Commercial tools significantly increase the time required for static analysis.
 
 #### MASVS-RESILIENCE-3.3 - Encrypt Sensitive String Literals
 
-Sensitive strings (API endpoints, algorithm names, key aliases) are not present as plaintext in the binary. Use build-time string encryption or commercial tools.
+High-value apps SHOULD reduce exposure of sensitive operational string literals in the binary. Secrets MUST NOT be hardcoded, and particularly sensitive strings MAY warrant additional hardening.
 
 **Rationale:** The `strings` command trivially extracts all string literals from a Mach-O binary. Plaintext strings reveal API URLs, cryptographic algorithm names, and internal logic.
 
@@ -258,7 +258,7 @@ The app verifies that critical method implementations have not been swizzled by 
 
 #### MASVS-RESILIENCE-4.5 - Integrate RASP for High-Security Apps
 
-High-security apps integrate Runtime Application Self-Protection (RASP) solutions for continuous runtime threat detection covering jailbreak, debugging, hooking, and emulator detection in a single SDK.
+High-security apps MAY integrate Runtime Application Self-Protection (RASP) solutions for continuous runtime threat detection when the threat model and operational cost justify them.
 
 **Rationale:** Individual detection checks require ongoing maintenance as bypass techniques evolve. RASP solutions from vendors (Promon SHIELD, Zimperium, Guardsquare) provide continuously updated detection across all threat categories.
 

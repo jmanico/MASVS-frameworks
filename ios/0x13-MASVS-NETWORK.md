@@ -2,7 +2,7 @@
 
 ## Overview
 
-App Transport Security (ATS) enforces TLS 1.2+ with forward secrecy for all connections by default since iOS 9. iOS 26 adds quantum-secure TLS 1.3. Combined with URLSession's certificate validation, iOS apps have strong networking foundations. Make sure apps use these correctly and do not weaken them with ATS exceptions or trust evaluation overrides.
+App Transport Security (ATS) enforces TLS 1.2+ with forward secrecy for all connections by default since iOS 9. Combined with URLSession's certificate validation, iOS apps have strong networking foundations. Make sure apps use these correctly and do not weaken them with ATS exceptions or trust evaluation overrides. Future TLS behavior changes in Apple platforms should be handled as version-specific guidance.
 
 ## ATS Defaults
 
@@ -20,7 +20,7 @@ App Transport Security (ATS) enforces TLS 1.2+ with forward secrecy for all conn
 | 9+ | ATS enabled by default |
 | 12.2+ | TLS 1.3 supported |
 | 16+ | Paste permission prompt (affects clipboard-based data exchange) |
-| 26 | Quantum-secure TLS 1.3 by default |
+| Future releases | Additional TLS behavior may change; verify against current Apple documentation before making release-specific claims |
 
 ## OWASP Mobile Top 10 2024 Mapping
 
@@ -49,7 +49,7 @@ The app does not set `NSAllowsArbitraryLoads = YES` in Info.plist. Per-domain ex
 
 #### MASVS-NETWORK-1.2 - TLS 1.2 Minimum, Prefer TLS 1.3
 
-ATS defaults enforce TLS 1.2+. TLS 1.3 is supported since iOS 12.2 and preferred for improved security and performance. iOS 26 enables post-quantum TLS 1.3 by default.
+ATS defaults enforce TLS 1.2+. TLS 1.3 is supported since iOS 12.2 and preferred for improved security and performance.
 
 **Rationale:** TLS 1.2 is the minimum acceptable version. TLS 1.3 removes legacy cipher suites and reduces handshake latency.
 
@@ -95,23 +95,23 @@ If a TLS connection fails, the app does not fall back to unencrypted HTTP. All n
 
 ### Control
 
-The app performs identity pinning for all remote endpoints under the developer's control.
+The app verifies server identity appropriately for remote endpoints under the developer's control.
 
 ### Description
 
-Certificate Transparency provides assurance that certificates were publicly logged. Certificate pinning restricts trusted certificates to specific keys. The industry has moved toward CT over pinning due to operational risks. Make sure the app verifies server identity appropriately.
+Certificate Transparency provides assurance that certificates were publicly logged. Certificate pinning restricts trusted certificates to specific keys. Make sure the app verifies server identity using the platform trust model and adds pinning only where the risk model justifies it.
 
 ### iOS Sub-Requirements
 
-#### MASVS-NETWORK-2.1 - Rely on Certificate Transparency
+#### MASVS-NETWORK-2.1 - Use Platform Trust Validation and Certificate Transparency
 
-iOS validates SCTs from Certificate Transparency logs. For most apps, CT plus standard chain validation is sufficient for server identity verification. No additional developer action is needed.
+iOS platform trust validation and certificate transparency checks provide the default server-identity baseline for most apps. Where the product relies on the standard Apple trust model, no additional app-side identity mechanism is required beyond correct ATS and trust-evaluation handling.
 
 **Rationale:** CT provides public accountability for certificate issuance without the operational risks of pinning.
 
-#### MASVS-NETWORK-2.2 - Certificate Pinning Only for Very High-Security Apps
+#### MASVS-NETWORK-2.2 - Use Certificate Pinning Only Where Justified
 
-Pinning SHOULD NOT be used for most apps due to operational risks (CA rotation failures, certificate expiry incidents). If used: pin to SPKI (not full certificate), include backup pins, implement failure reporting, maintain documented rotation procedures.
+Certificate pinning SHOULD be limited to high-security or high-assurance use cases with mature rotation procedures. If used, pin to SPKI (not the full certificate), include backup pins, and maintain documented rotation procedures.
 
 **Rationale:** Pinning without proper rotation procedures causes outages when certificates change.
 

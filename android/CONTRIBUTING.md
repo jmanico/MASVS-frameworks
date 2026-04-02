@@ -26,6 +26,7 @@ Thank you for your interest in contributing to the OWASP MASVS for Android proje
 - Include rationale: explain *why* the requirement matters, not just *what* to do
 - Reference Android documentation: link to developer.android.com where applicable
 - Stay current: note API level requirements and deprecation status of APIs
+- Follow the repo-wide [Requirements Style Guide](../REQUIREMENTS-STYLE.md) for normative language, version scoping, and training-aligned formatting expectations
 
 ### What We Need
 
