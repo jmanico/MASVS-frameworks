@@ -14,11 +14,10 @@ Thank you for your interest in contributing to the OWASP MASVS for Android proje
 
 1. Fork the repository and create a feature branch
 2. Make your changes following the existing format:
-   - Control files in `controls/` use the standard heading structure
+   - Chapter files (`0x1X-MASVS-*.md`) contain overview, controls, and training requirements
    - Each sub-requirement has an ID, title, rationale, and Android references
-3. Update the YAML file (`OWASP_MASVS_Android.yaml`) if adding/modifying controls
-4. Update the relevant Document overview file if changing control counts
-5. Submit a PR with a clear description referencing the upstream MASVS control ID
+3. Update `0x00-Header.yaml` if adding/modifying control groups
+4. Submit a PR with a clear description referencing the upstream MASVS control ID
 
 ### Style Guidelines
 
