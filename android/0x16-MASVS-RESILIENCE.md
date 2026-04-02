@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android APKs are trivially decompilable — `jadx` produces readable Java/Kotlin from DEX bytecode, `apktool` extracts resources and manifest, and tools like Frida and Xposed allow runtime manipulation of any app function. For apps that handle financial transactions, DRM, anti-cheat, or sensitive business logic, defense-in-depth measures are necessary to increase the cost and complexity of reverse engineering and tampering. This category covers platform integrity validation, anti-tampering, anti-static analysis, and anti-dynamic analysis techniques on Android.
+Android APKs are trivially decompilable - `jadx` produces readable Java/Kotlin from DEX bytecode, `apktool` extracts resources and manifest, and tools like Frida and Xposed allow runtime manipulation of any app function. For apps that handle financial transactions, DRM, anti-cheat, or sensitive business logic, defense-in-depth measures are necessary to increase the cost and complexity of reverse engineering and tampering. This category covers platform integrity validation, anti-tampering, anti-static analysis, and anti-dynamic analysis techniques on Android.
 
 **Important:** MASVS-RESILIENCE controls are defense-in-depth. They raise the bar but do not provide absolute protection. Critical security logic must always be enforced server-side. These controls complement, not replace, the other MASVS categories.
 
@@ -38,7 +38,7 @@ Android APKs are trivially decompilable — `jadx` produces readable Java/Kotlin
 
 ## OWASP Mobile Top 10 2024 Mapping
 
-- **M7 — Insufficient Binary Protections:** Directly addressed by all four controls
+- **M7 - Insufficient Binary Protections:** Directly addressed by all four controls
 
 ---
 
@@ -50,11 +50,11 @@ The app validates the integrity of the platform.
 
 ### Description
 
-Running on a compromised Android platform — rooted devices, unlocked bootloaders, custom ROMs, or devices with Magisk/Xposed — undermines many security controls that depend on platform guarantees (sandboxing, secure storage, biometric integrity). This control ensures the app detects platform compromise and responds appropriately, using multiple layered detection techniques and server-side verification via the Google Play Integrity API.
+Running on a compromised Android platform - rooted devices, unlocked bootloaders, custom ROMs, or devices with Magisk/Xposed - undermines many security controls that depend on platform guarantees (sandboxing, secure storage, biometric integrity). Make sure the app detects platform compromise and responds appropriately, using multiple layered detection techniques and server-side verification via the Google Play Integrity API.
 
 ### Android Sub-Requirements
 
-#### MASVS-RESILIENCE-1.1 — Use Google Play Integrity API for Device Attestation
+#### MASVS-RESILIENCE-1.1 - Use Google Play Integrity API for Device Attestation
 
 The app requests a Play Integrity token on launch or before sensitive operations and sends it to the server for verification. The server evaluates:
 
@@ -73,7 +73,7 @@ The app requests a Play Integrity token on launch or before sensitive operations
 - `com.google.android.play:integrity`
 - `IntegrityManager.requestIntegrityToken(IntegrityTokenRequest)`
 
-#### MASVS-RESILIENCE-1.2 — Implement Multi-Signal Root Detection
+#### MASVS-RESILIENCE-1.2 - Implement Multi-Signal Root Detection
 
 In addition to Play Integrity, the app performs local root detection checks as defense-in-depth:
 
@@ -89,13 +89,13 @@ In addition to Play Integrity, the app performs local root detection checks as d
 
 **Important:** Local root detection is a speed bump, not a security boundary.
 
-#### MASVS-RESILIENCE-1.3 — Perform Root Checks in Native Code
+#### MASVS-RESILIENCE-1.3 - Perform Root Checks in Native Code
 
 Critical root detection logic is implemented in native code (C/C++ via JNI) in addition to Java/Kotlin, cross-referencing results from both layers.
 
 **Rationale:** Java/Kotlin method calls are trivially hookable with Frida or Xposed. Native code requires more sophisticated instrumentation to bypass.
 
-#### MASVS-RESILIENCE-1.4 — Detect Emulators
+#### MASVS-RESILIENCE-1.4 - Detect Emulators
 
 The app detects execution on emulators by checking:
 
@@ -107,7 +107,7 @@ The app detects execution on emulators by checking:
 
 **Rationale:** Emulators allow easy app instrumentation, debugging, and traffic interception.
 
-#### MASVS-RESILIENCE-1.5 — Respond Appropriately to Platform Integrity Failures
+#### MASVS-RESILIENCE-1.5 - Respond Appropriately to Platform Integrity Failures
 
 When platform integrity checks fail, the app does not simply display an error and exit. Instead:
 
@@ -127,11 +127,11 @@ The app implements anti-tampering mechanisms.
 
 ### Description
 
-Without protection, it is relatively straightforward to modify an Android APK — re-signing with a different key after code or resource modification, patching DEX bytecode, or uploading a backdoored version to third-party stores. This control ensures the app detects modifications to its own code, resources, and signing certificate to maintain integrity.
+Without protection, it is relatively straightforward to modify an Android APK - re-signing with a different key after code or resource modification, patching DEX bytecode, or uploading a backdoored version to third-party stores. Make sure the app detects modifications to its own code, resources, and signing certificate to maintain integrity.
 
 ### Android Sub-Requirements
 
-#### MASVS-RESILIENCE-2.1 — Verify App Signing Certificate at Runtime
+#### MASVS-RESILIENCE-2.1 - Verify App Signing Certificate at Runtime
 
 The app verifies its own signing certificate at runtime against a hardcoded expected certificate hash.
 
@@ -140,19 +140,19 @@ The app verifies its own signing certificate at runtime against a hardcoded expe
 **Android References:**
 - `PackageManager.getPackageInfo()` with `GET_SIGNING_CERTIFICATES`
 
-#### MASVS-RESILIENCE-2.2 — Verify APK Integrity via Play Integrity
+#### MASVS-RESILIENCE-2.2 - Verify APK Integrity via Play Integrity
 
 Use the Play Integrity API's `appRecognitionVerdict` to verify server-side that the APK matches the version published on Google Play (`PLAY_RECOGNIZED`).
 
 **Rationale:** Client-side integrity checks can be patched out.
 
-#### MASVS-RESILIENCE-2.3 — Detect DEX and Native Library Modifications
+#### MASVS-RESILIENCE-2.3 - Detect DEX and Native Library Modifications
 
 The app computes checksums of its DEX files and native libraries at runtime and compares them against expected values.
 
 **Rationale:** Attackers modify DEX bytecode to bypass security checks.
 
-#### MASVS-RESILIENCE-2.4 — Use v2+ APK Signing Scheme
+#### MASVS-RESILIENCE-2.4 - Use v2+ APK Signing Scheme
 
 The app is signed with APK Signature Scheme v2 or v3 (not v1 JAR signing alone).
 
@@ -161,13 +161,13 @@ The app is signed with APK Signature Scheme v2 or v3 (not v1 JAR signing alone).
 - v3 signing (API 28+) enables key rotation
 - v3.1 (API 33+)
 
-#### MASVS-RESILIENCE-2.5 — Detect Installation Source
+#### MASVS-RESILIENCE-2.5 - Detect Installation Source
 
 The app verifies its installation source using `PackageManager.getInstallSourceInfo()` (API 30+). Apps distributed via Google Play should verify the installer is `com.android.vending`.
 
 **Rationale:** Apps sideloaded from third-party sources may have been modified.
 
-#### MASVS-RESILIENCE-2.6 — Implement Redundant Integrity Checks
+#### MASVS-RESILIENCE-2.6 - Implement Redundant Integrity Checks
 
 Integrity checks are implemented in multiple locations throughout the app's execution flow and use different techniques.
 
@@ -183,23 +183,23 @@ The app implements anti-static analysis mechanisms.
 
 ### Description
 
-Understanding the internals of an Android app through static analysis is typically the first step toward tampering. This control ensures the app makes static analysis significantly more difficult.
+Understanding the internals of an Android app through static analysis is typically the first step toward tampering. Make sure the app makes static analysis significantly more difficult.
 
 ### Android Sub-Requirements
 
-#### MASVS-RESILIENCE-3.1 — Enable R8 Code Shrinking and Obfuscation
+#### MASVS-RESILIENCE-3.1 - Enable R8 Code Shrinking and Obfuscation
 
 R8 is enabled for all release builds with `minifyEnabled true` and `shrinkResources true`.
 
 **Rationale:** R8 renames classes, methods, and fields to short, meaningless names.
 
-#### MASVS-RESILIENCE-3.2 — Encrypt String Literals Containing Sensitive Values
+#### MASVS-RESILIENCE-3.2 - Encrypt String Literals Containing Sensitive Values
 
 Sensitive strings are not present as plaintext in the DEX file.
 
 **Rationale:** R8 does NOT encrypt strings.
 
-#### MASVS-RESILIENCE-3.3 — Apply Control Flow Obfuscation (High-Value Apps)
+#### MASVS-RESILIENCE-3.3 - Apply Control Flow Obfuscation (High-Value Apps)
 
 For high-value apps, use commercial obfuscation tools that implement control flow obfuscation.
 
@@ -210,7 +210,7 @@ For high-value apps, use commercial obfuscation tools that implement control flo
 - Promon SHIELD
 - Verimatrix
 
-#### MASVS-RESILIENCE-3.4 — Obfuscate Native Code
+#### MASVS-RESILIENCE-3.4 - Obfuscate Native Code
 
 If the app contains native libraries, native code is obfuscated using LLVM-based obfuscators with:
 
@@ -221,7 +221,7 @@ If the app contains native libraries, native code is obfuscated using LLVM-based
 
 **Rationale:** Native code is decompilable with Ghidra or IDA Pro.
 
-#### MASVS-RESILIENCE-3.5 — Remove Debug Information from Release Builds
+#### MASVS-RESILIENCE-3.5 - Remove Debug Information from Release Builds
 
 Release builds are configured with:
 
@@ -242,11 +242,11 @@ The app implements anti-dynamic analysis techniques.
 
 ### Description
 
-Dynamic analysis — attaching debuggers, hooking functions with Frida, instrumenting with Xposed/LSPosed, and runtime manipulation — allows attackers to modify app behavior. This control ensures the app detects and resists dynamic instrumentation.
+Dynamic analysis - attaching debuggers, hooking functions with Frida, instrumenting with Xposed/LSPosed, and runtime manipulation - allows attackers to modify app behavior. Make sure the app detects and resists dynamic instrumentation.
 
 ### Android Sub-Requirements
 
-#### MASVS-RESILIENCE-4.1 — Detect Debugging
+#### MASVS-RESILIENCE-4.1 - Detect Debugging
 
 The app detects when a debugger is attached:
 
@@ -257,7 +257,7 @@ The app detects when a debugger is attached:
 
 **Rationale:** Debuggers allow inspection and modification of memory and variables.
 
-#### MASVS-RESILIENCE-4.2 — Detect Frida and Dynamic Instrumentation Frameworks
+#### MASVS-RESILIENCE-4.2 - Detect Frida and Dynamic Instrumentation Frameworks
 
 The app detects Frida, Xposed, and other instrumentation frameworks:
 
@@ -271,7 +271,7 @@ The app detects Frida, Xposed, and other instrumentation frameworks:
 
 **Rationale:** Frida is the most widely used dynamic instrumentation tool.
 
-#### MASVS-RESILIENCE-4.3 — Implement Anti-Hook Techniques
+#### MASVS-RESILIENCE-4.3 - Implement Anti-Hook Techniques
 
 The app verifies the integrity of critical security functions:
 
@@ -282,7 +282,7 @@ The app verifies the integrity of critical security functions:
 
 **Rationale:** Frida works by replacing function prologues with trampolines.
 
-#### MASVS-RESILIENCE-4.4 — Detect Runtime Environment Manipulation
+#### MASVS-RESILIENCE-4.4 - Detect Runtime Environment Manipulation
 
 The app detects signs of runtime manipulation:
 
@@ -291,15 +291,15 @@ The app detects signs of runtime manipulation:
 - Detect suspicious environment variables
 - Monitor for unexpected loaded libraries in `/proc/self/maps`
 
-#### MASVS-RESILIENCE-4.5 — Implement Timing-Based Detection
+#### MASVS-RESILIENCE-4.5 - Implement Timing-Based Detection
 
 The app uses timing checks to detect single-stepping and breakpoint-based debugging.
 
 **Rationale:** Debuggers and instrumentation tools introduce latency.
 
-#### MASVS-RESILIENCE-4.6 — Use App Access Risk Verdict (Android 15+)
+#### MASVS-RESILIENCE-4.6 - Use App Access Risk Verdict (Android 15+)
 
-For apps handling sensitive data, leverage Play Integrity API's `appAccessRiskVerdict` to detect:
+For apps handling sensitive data, use Play Integrity API's `appAccessRiskVerdict` to detect:
 
 - `UNKNOWN_CAPTURING`
 - `UNKNOWN_CONTROLLING`

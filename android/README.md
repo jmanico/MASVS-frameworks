@@ -46,9 +46,9 @@
 | 0x17 | MASVS-PRIVACY | Privacy and data minimization |
 
 Each chapter contains:
-1. **Overview** — landscape, architecture diagrams, and API reference tables
-2. **Controls** — detailed sub-requirements with rationale and Android references
-3. **Training-Aligned Requirements** — additional testable requirements from OWASP/Manicode training
+1. **Overview** - landscape, architecture diagrams, and API reference tables
+2. **Controls** - detailed sub-requirements with rationale and Android references
+3. **Training-Aligned Requirements** - additional testable requirements from OWASP/Manicode training
 
 ## Upstream Mapping
 

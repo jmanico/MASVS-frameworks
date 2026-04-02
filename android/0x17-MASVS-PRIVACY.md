@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android's privacy landscape has evolved dramatically — from the early days of broad permissions and unlimited identifier access to modern granular runtime permissions, scoped storage, restricted identifiers, privacy indicators, and the Privacy Sandbox. This category ensures Android apps practice data minimization, use privacy-preserving identifiers, provide transparent disclosures, and give users meaningful control over their data.
+Android's privacy landscape has evolved dramatically - from the early days of broad permissions and unlimited identifier access to modern granular runtime permissions, scoped storage, restricted identifiers, privacy indicators, and the Privacy Sandbox. Make sure Android apps practice data minimization, use privacy-preserving identifiers, provide transparent disclosures, and give users meaningful control over their data.
 
 ## Android Privacy Evolution
 
@@ -39,7 +39,7 @@ Android's privacy landscape has evolved dramatically — from the early days of 
 
 ## OWASP Mobile Top 10 2024 Mapping
 
-- **M6 — Inadequate Privacy Controls:** Directly addressed by all four controls
+- **M6 - Inadequate Privacy Controls:** Directly addressed by all four controls
 
 ---
 
@@ -51,17 +51,17 @@ The app minimizes access to sensitive data and resources.
 
 ### Description
 
-Android apps should only request access to the data and system resources they absolutely need. Android's permission model has evolved significantly — from install-time grants to runtime permissions, one-time permissions, partial grants, and auto-revocation. This control ensures apps practice data minimization, request only necessary permissions, and enforce that third-party SDKs respect the same constraints.
+Android apps should only request access to the data and system resources they absolutely need. Android's permission model has evolved significantly - from install-time grants to runtime permissions, one-time permissions, partial grants, and auto-revocation. Make sure apps practice data minimization, request only necessary permissions, and enforce that third-party SDKs respect the same constraints.
 
 ### Android Sub-Requirements
 
-#### MASVS-PRIVACY-1.1 — Request Only Necessary Permissions
+#### MASVS-PRIVACY-1.1 - Request Only Necessary Permissions
 
 The app requests only the permissions that are strictly necessary for its core functionality. Every permission declared in `AndroidManifest.xml` has documented justification. Permissions that are only needed for optional features are requested when the feature is first used, not on app launch.
 
 **Rationale:** Excessive permissions increase the attack surface and erode user trust.
 
-#### MASVS-PRIVACY-1.2 — Use the Most Restrictive Permission Available
+#### MASVS-PRIVACY-1.2 - Use the Most Restrictive Permission Available
 
 When multiple permission levels can achieve the same goal, the app uses the least privileged option: `ACCESS_COARSE_LOCATION` instead of `ACCESS_FINE_LOCATION` when approximate location suffices; `READ_MEDIA_IMAGES` (API 33+) instead of `READ_EXTERNAL_STORAGE`; `QUERY_ALL_PACKAGES` is avoided.
 
@@ -70,28 +70,28 @@ When multiple permission levels can achieve the same goal, the app uses the leas
 - Android 13+ granular media permissions
 - Android 14+ partial photo/video access
 
-#### MASVS-PRIVACY-1.3 — Handle Permission Denials Gracefully
+#### MASVS-PRIVACY-1.3 - Handle Permission Denials Gracefully
 
 The app handles permission denials gracefully: Continues functioning with degraded features, Clearly explains why a permission is needed, Respects "Don't ask again", Never blocks app launch solely due to a denied non-critical permission.
 
-#### MASVS-PRIVACY-1.4 — Audit Third-Party SDK Data Collection
+#### MASVS-PRIVACY-1.4 - Audit Third-Party SDK Data Collection
 
 Every third-party SDK is audited for what data it collects, whether it respects consent signals, whether it transmits data to third-party servers, whether it can be configured to minimize collection.
 
 **Rationale:** Third-party SDKs are the primary source of undisclosed data collection.
 
-#### MASVS-PRIVACY-1.5 — Enforce SDK Consent Compliance
+#### MASVS-PRIVACY-1.5 - Enforce SDK Consent Compliance
 
 Third-party SDKs are initialized only after the user has granted consent.
 
 **Android References:**
 - Initialize analytics/advertising SDKs only after consent flow completes
 
-#### MASVS-PRIVACY-1.6 — Implement Scoped Storage Correctly
+#### MASVS-PRIVACY-1.6 - Implement Scoped Storage Correctly
 
 The app uses scoped storage (enforced since API 30): App-specific files, Shared media via `MediaStore`, User-selected files via Storage Access Framework, No `MANAGE_EXTERNAL_STORAGE` unless file manager.
 
-#### MASVS-PRIVACY-1.7 — Minimize Background Data Access
+#### MASVS-PRIVACY-1.7 - Minimize Background Data Access
 
 The app does not access sensitive data in the background unless essential.
 
@@ -110,31 +110,31 @@ The app prevents identification of the user.
 
 ### Description
 
-Protecting user identity and preventing cross-app or cross-session tracking is a core privacy requirement. This control ensures the app uses privacy-preserving identifiers.
+Protecting user identity and preventing cross-app or cross-session tracking is a core privacy requirement. Make sure the app uses privacy-preserving identifiers.
 
 ### Android Sub-Requirements
 
-#### MASVS-PRIVACY-2.1 — Do Not Use Hardware Device Identifiers
+#### MASVS-PRIVACY-2.1 - Do Not Use Hardware Device Identifiers
 
 The app does not access or transmit hardware device identifiers: IMEI (removed since API 29), MEID, Device serial number, MAC addresses (randomized since API 29), ANDROID_ID (scoped since API 26).
 
 **Rationale:** Hardware identifiers are permanent and enable cross-app tracking.
 
-#### MASVS-PRIVACY-2.2 — Use Privacy-Preserving Identifiers
+#### MASVS-PRIVACY-2.2 - Use Privacy-Preserving Identifiers
 
 The app uses the appropriate identifier for each use case: Advertising (Google Advertising ID or Topics API), Analytics (app-instance ID), Push notifications (FCM token), Fraud detection (server-generated tokens).
 
-#### MASVS-PRIVACY-2.3 — Prevent Cross-Purpose Identifier Linking
+#### MASVS-PRIVACY-2.3 - Prevent Cross-Purpose Identifier Linking
 
 Identifiers collected for one purpose are not reused for another purpose.
 
 **Rationale:** Cross-purpose linking enables building comprehensive user profiles.
 
-#### MASVS-PRIVACY-2.4 — Implement Data Anonymization for Analytics
+#### MASVS-PRIVACY-2.4 - Implement Data Anonymization for Analytics
 
 Analytics data is anonymized: IP addresses truncated, User IDs pseudonymized, Location data generalized, Event data aggregated.
 
-#### MASVS-PRIVACY-2.5 — Minimize Device Fingerprinting Signals
+#### MASVS-PRIVACY-2.5 - Minimize Device Fingerprinting Signals
 
 The app does not collect or transmit combinations of device attributes for fingerprinting.
 
@@ -152,32 +152,32 @@ The app is transparent about data collection and usage.
 
 ### Description
 
-Users have the right to understand how their data is collected, stored, processed, and shared. This control ensures transparency.
+Users have the right to understand how their data is collected, stored, processed, and shared. Make sure transparency.
 
 ### Android Sub-Requirements
 
-#### MASVS-PRIVACY-3.1 — Complete and Accurate Google Play Data Safety Section
+#### MASVS-PRIVACY-3.1 - Complete and Accurate Google Play Data Safety Section
 
 The app's Google Play Data Safety Section accurately declares all data types, purposes, encryption practices, deletion capabilities, and all third-party SDK data collection.
 
 **Rationale:** Google Play Data Safety is the primary transparency mechanism.
 
-#### MASVS-PRIVACY-3.2 — Provide In-App Privacy Disclosure
+#### MASVS-PRIVACY-3.2 - Provide In-App Privacy Disclosure
 
 The app displays a clear privacy notice on first launch explaining what data is collected, sharing, retention, and data rights.
 
-#### MASVS-PRIVACY-3.3 — Disclose Non-Obvious Data Collection
+#### MASVS-PRIVACY-3.3 - Disclose Non-Obvious Data Collection
 
 Any data collection behavior that a reasonable user would not expect is explicitly disclosed: Background collection, non-primary input sources, pre-engagement collection, SDK data collection.
 
-#### MASVS-PRIVACY-3.4 — Display Privacy Indicators and Notifications
+#### MASVS-PRIVACY-3.4 - Display Privacy Indicators and Notifications
 
 The app respects Android's built-in privacy indicators and provides its own in-app indicators. Uses `ForegroundServiceType` declarations.
 
 **Android References:**
 - Android 12+ green status bar dots
 
-#### MASVS-PRIVACY-3.5 — Keep Disclosures Current
+#### MASVS-PRIVACY-3.5 - Keep Disclosures Current
 
 Privacy disclosures are updated whenever new data types are collected, new SDKs are added, sharing practices change, or new features access sensitive data.
 
@@ -191,36 +191,36 @@ The app offers user control over their data.
 
 ### Description
 
-Users should have meaningful control over their personal data. This control ensures the app provides data management capabilities in compliance with privacy regulations.
+Users should have meaningful control over their personal data. Make sure the app provides data management capabilities in compliance with privacy regulations.
 
 ### Android Sub-Requirements
 
-#### MASVS-PRIVACY-4.1 — Provide Data Deletion Capability
+#### MASVS-PRIVACY-4.1 - Provide Data Deletion Capability
 
 The app provides a mechanism for users to request deletion of their account and associated data. Accessible from within the app and from a web URL.
 
 **Android References:**
 - Google Play policy requires a data deletion URL
 
-#### MASVS-PRIVACY-4.2 — Allow Granular Consent Management
+#### MASVS-PRIVACY-4.2 - Allow Granular Consent Management
 
 The app provides a consent management interface where the user can grant or deny consent per purpose, modify choices at any time, withdraw consent easily, and see which data types are collected.
 
-#### MASVS-PRIVACY-4.3 — Respect Consent Withdrawal
+#### MASVS-PRIVACY-4.3 - Respect Consent Withdrawal
 
 When a user revokes consent: The app immediately stops the associated data collection, Third-party SDKs are reconfigured, Previously collected data is deleted or anonymized, Changes take effect without requiring restart.
 
-#### MASVS-PRIVACY-4.4 — Support Data Export / Portability
+#### MASVS-PRIVACY-4.4 - Support Data Export / Portability
 
 For apps subject to GDPR or similar, the app provides data export in machine-readable format (JSON, CSV).
 
-#### MASVS-PRIVACY-4.5 — Re-Prompt on Expanded Data Collection
+#### MASVS-PRIVACY-4.5 - Re-Prompt on Expanded Data Collection
 
 If the app begins collecting new data types, it re-prompts for consent.
 
 **Rationale:** Initial consent does not cover future unrelated uses.
 
-#### MASVS-PRIVACY-4.6 — Integrate with Android Permission Settings
+#### MASVS-PRIVACY-4.6 - Integrate with Android Permission Settings
 
 The app respects system-level privacy controls: Honors permission revocation, Handles auto-revoked permissions gracefully, Does not use workarounds to circumvent denial.
 

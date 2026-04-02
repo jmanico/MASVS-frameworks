@@ -2,7 +2,7 @@
 
 ## Overview
 
-Android apps are distributed as APK/AAB bundles containing DEX bytecode, native libraries, resources, and third-party dependencies fetched via Gradle from Maven repositories. This distribution model creates attack surface at multiple levels — outdated platform dependencies, unpatched third-party libraries, malicious supply chain injections, and insufficient input validation. This category ensures the app maintains code quality, manages its dependency supply chain securely, and validates all untrusted inputs.
+Android apps are distributed as APK/AAB bundles containing DEX bytecode, native libraries, resources, and third-party dependencies fetched via Gradle from Maven repositories. This distribution model creates attack surface at multiple levels - outdated platform dependencies, unpatched third-party libraries, malicious supply chain injections, and insufficient input validation. Make sure the app maintains code quality, manages its dependency supply chain securely, and validates all untrusted inputs.
 
 ## Android Build and Distribution Security
 
@@ -41,9 +41,9 @@ Android apps are distributed as APK/AAB bundles containing DEX bytecode, native 
 
 ## OWASP Mobile Top 10 2024 Mapping
 
-- **M2 — Inadequate Supply Chain Security:** Directly addressed by MASVS-CODE-3
-- **M4 — Insufficient Input/Output Validation:** Directly addressed by MASVS-CODE-4
-- **M7 — Insufficient Binary Protections:** Partially addressed (see MASVS-RESILIENCE for full coverage)
+- **M2 - Inadequate Supply Chain Security:** Directly addressed by MASVS-CODE-3
+- **M4 - Insufficient Input/Output Validation:** Directly addressed by MASVS-CODE-4
+- **M7 - Insufficient Binary Protections:** Partially addressed (see MASVS-RESILIENCE for full coverage)
 
 ---
 
@@ -55,32 +55,32 @@ The app requires an up-to-date platform version.
 
 ### Description
 
-Each Android release includes security patches, privacy improvements, and new security features. Supporting older Android versions keeps users exposed to known, patched vulnerabilities and prevents the app from leveraging modern security mechanisms. This control ensures the app targets and requires a sufficiently recent Android version to benefit from current platform security protections.
+Each Android release includes security patches, privacy improvements, and new security features. Supporting older Android versions keeps users exposed to known, patched vulnerabilities and prevents the app from using modern security mechanisms. Make sure the app targets and requires a sufficiently recent Android version to benefit from current platform security protections.
 
 ### Android Sub-Requirements
 
-#### MASVS-CODE-1.1 — Set Appropriate minSdkVersion
+#### MASVS-CODE-1.1 - Set Appropriate minSdkVersion
 
 The app's `minSdkVersion` is set to at least API 28 (Android 9) to ensure baseline security features including: Network Security Configuration with cleartext blocking by default, StrongBox Keystore support, BiometricPrompt API availability, Protected Confirmation support, Hardware security module attestation. For new apps, `minSdkVersion` of API 29 (Android 10) or higher is recommended to benefit from scoped storage, background location restrictions, and TLS 1.3 by default.
 
 **Android References:**
 - `minSdkVersion` in `build.gradle` / `build.gradle.kts`
 
-#### MASVS-CODE-1.2 — Target the Latest Stable API Level
+#### MASVS-CODE-1.2 - Target the Latest Stable API Level
 
 The app's `targetSdkVersion` is set to the latest stable API level (API 35 for Android 15, API 36 for Android 16) to opt in to the latest security behaviors: API 31+: `PendingIntent` mutability must be explicit; components with intent-filters must declare `android:exported`; API 33+: `RECEIVER_NOT_EXPORTED` flag for broadcast receiver registration; API 34+: Partial media access; stricter background restrictions; API 35+: TLS 1.0/1.1 disabled; safer intent matching; API 36+: Local network permission; Safer Intents v2; intent redirection hardening.
 
 **Rationale:** Google Play requires targeting a recent API level. Each new target SDK activates security behavior changes that protect the app and its users.
 
-#### MASVS-CODE-1.3 — Prompt Users on Outdated OS Versions
+#### MASVS-CODE-1.3 - Prompt Users on Outdated OS Versions
 
 If the app detects it is running on an Android version that no longer receives security patches (typically versions more than 3 years old), it informs the user of the security risk. The app may choose to restrict sensitive functionality on unsupported OS versions.
 
 **Rationale:** Even with a current app, an outdated OS with unpatched kernel and framework vulnerabilities puts user data at risk.
 
-#### MASVS-CODE-1.4 — Use Android API Level Checks for Security Features
+#### MASVS-CODE-1.4 - Use Android API Level Checks for Security Features
 
-The app uses `Build.VERSION.SDK_INT` checks to leverage stronger security features on newer API levels while maintaining compatibility. Kotlin code example showing StrongBox fallback to TEE.
+The app uses `Build.VERSION.SDK_INT` checks to use stronger security features on newer API levels while maintaining compatibility. Kotlin code example showing StrongBox fallback to TEE.
 
 **Rationale:** Progressive security enhancement ensures users on newer devices get the strongest available protections while older devices still function.
 
@@ -94,11 +94,11 @@ The app has a mechanism for enforcing app updates.
 
 ### Description
 
-When critical security vulnerabilities are discovered in a released Android app, users must be able to update promptly. Android provides the Google Play In-App Updates API for prompting users to update within the app. This control ensures the app can force or strongly encourage updates when security-critical issues are discovered.
+When critical security vulnerabilities are discovered in a released Android app, users must be able to update promptly. Android provides the Google Play In-App Updates API for prompting users to update within the app. Make sure the app can force or strongly encourage updates when security-critical issues are discovered.
 
 ### Android Sub-Requirements
 
-#### MASVS-CODE-2.1 — Implement In-App Update Checks
+#### MASVS-CODE-2.1 - Implement In-App Update Checks
 
 The app uses the Google Play In-App Updates API (`com.google.android.play:app-update`) to check for available updates and prompt the user. For critical security updates, the app uses the immediate update flow (full-screen, blocking) rather than the flexible (background download) flow.
 
@@ -108,17 +108,17 @@ The app uses the Google Play In-App Updates API (`com.google.android.play:app-up
 - `AppUpdateType.IMMEDIATE`
 - `AppUpdateType.FLEXIBLE`
 
-#### MASVS-CODE-2.2 — Implement Minimum Version Enforcement
+#### MASVS-CODE-2.2 - Implement Minimum Version Enforcement
 
 The app checks a server-side minimum version endpoint on launch. If the running app version is below the minimum, the app blocks usage and directs the user to update.
 
 **Rationale:** The In-App Updates API only works with Google Play. Server-side version enforcement works regardless of distribution channel and gives the security team the ability to force updates when a critical vulnerability is found.
 
-#### MASVS-CODE-2.3 — Handle Update Failures Gracefully
+#### MASVS-CODE-2.3 - Handle Update Failures Gracefully
 
 If the user declines or fails to update when a critical update is available, the app either: Restricts access to sensitive functionality while running the outdated version; Re-prompts on next launch with increasing urgency; Blocks usage entirely if the vulnerability is critical enough. The app does not crash, lose data, or degrade unexpectedly when handling update flows.
 
-#### MASVS-CODE-2.4 — Monitor Update Adoption
+#### MASVS-CODE-2.4 - Monitor Update Adoption
 
 The app reports its version to the backend on each API call or session start, enabling the security team to monitor the distribution of app versions in the wild and track the adoption rate of critical security updates.
 
@@ -134,17 +134,17 @@ The app only uses software components without known vulnerabilities.
 
 ### Description
 
-Android apps typically include dozens of third-party libraries via Gradle dependencies — networking (OkHttp, Retrofit), image loading (Glide, Coil), analytics, advertising, and more. Each dependency is potential attack surface. Known vulnerabilities in these dependencies can be exploited by attackers. This control ensures the app maintains awareness of its dependency tree and addresses known vulnerabilities.
+Android apps typically include dozens of third-party libraries via Gradle dependencies - networking (OkHttp, Retrofit), image loading (Glide, Coil), analytics, advertising, and more. Each dependency is potential attack surface. Known vulnerabilities in these dependencies can be exploited by attackers. Make sure the app maintains awareness of its dependency tree and addresses known vulnerabilities.
 
 ### Android Sub-Requirements
 
-#### MASVS-CODE-3.1 — Scan Dependencies for Known Vulnerabilities
+#### MASVS-CODE-3.1 - Scan Dependencies for Known Vulnerabilities
 
 The build pipeline includes automated dependency vulnerability scanning using tools such as: OWASP Dependency-Check (`org.owasp:dependency-check-gradle`), Snyk, GitHub Dependabot, Google's `play-services-safetynet` / Play Integrity for runtime checks (limited). Scans run on every build or at minimum on every pull request and release build.
 
 **Rationale:** New CVEs are published regularly for popular Android libraries. Automated scanning catches known vulnerabilities before they ship to users.
 
-#### MASVS-CODE-3.2 — Maintain a Software Bill of Materials (SBOM)
+#### MASVS-CODE-3.2 - Maintain a Software Bill of Materials (SBOM)
 
 The app maintains an SBOM listing all direct and transitive dependencies, their versions, and licenses. The SBOM is generated as part of the build process and stored alongside release artifacts.
 
@@ -154,7 +154,7 @@ The app maintains an SBOM listing all direct and transitive dependencies, their 
 - `./gradlew dependencies`
 - CycloneDX Gradle plugin for SBOM generation in CycloneDX format
 
-#### MASVS-CODE-3.3 — Pin Dependency Versions
+#### MASVS-CODE-3.3 - Pin Dependency Versions
 
 All dependencies in `build.gradle` use exact version numbers (e.g., `2.9.0`), not dynamic versions (`2.+`, `latest.release`). Gradle dependency locking (`dependencyLocking`) is enabled to produce reproducible builds.
 
@@ -164,7 +164,7 @@ All dependencies in `build.gradle` use exact version numbers (e.g., `2.9.0`), no
 - Gradle dependency locking: `dependenciesLocking { lockAllConfigurations() }`
 - `gradle.lockfile`
 
-#### MASVS-CODE-3.4 — Verify Dependency Integrity
+#### MASVS-CODE-3.4 - Verify Dependency Integrity
 
 Gradle dependency verification (`gradle/verification-metadata.xml`) is configured to verify checksums (SHA-256) and/or PGP signatures of all downloaded dependencies.
 
@@ -174,7 +174,7 @@ Gradle dependency verification (`gradle/verification-metadata.xml`) is configure
 - `gradle/verification-metadata.xml`
 - `./gradlew --write-verification-metadata sha256,pgp`
 
-#### MASVS-CODE-3.5 — Minimize Third-Party SDK Attack Surface
+#### MASVS-CODE-3.5 - Minimize Third-Party SDK Attack Surface
 
 The app includes only essential third-party SDKs. Each SDK is evaluated for: What data it collects (for Google Play Data Safety Section compliance), What permissions it requires, Whether it includes native code (`.so` libraries), Its maintenance status and security track record, Whether it can be replaced with a platform API or smaller, audited alternative.
 
@@ -190,11 +190,11 @@ The app validates and sanitizes all untrusted inputs.
 
 ### Description
 
-Android apps receive input from many sources: user interface fields, intents from other apps, deep links, content providers, the network, local files, clipboard, and NFC. All of these inputs can be crafted by an attacker. This control ensures the app treats all external input as untrusted and applies appropriate validation and sanitization to prevent injection attacks and logic bypasses on Android.
+Android apps receive input from many sources: user interface fields, intents from other apps, deep links, content providers, the network, local files, clipboard, and NFC. All of these inputs can be crafted by an attacker. Make sure the app treats all external input as untrusted and applies appropriate validation and sanitization to prevent injection attacks and logic bypasses on Android.
 
 ### Android Sub-Requirements
 
-#### MASVS-CODE-4.1 — Validate Intent Extras and Data URIs
+#### MASVS-CODE-4.1 - Validate Intent Extras and Data URIs
 
 All data extracted from incoming intents is validated against expected types, ranges, and patterns before use. Specific risks: `getParcelableExtra()` can trigger deserialization of attacker-controlled classes; `getData()` URIs may contain unexpected schemes; Missing extras should be handled gracefully.
 
@@ -202,39 +202,39 @@ All data extracted from incoming intents is validated against expected types, ra
 - Use `IntentCompat.getParcelableExtra()` with explicit class parameter (API 33+)
 - Validate URI schemes against an allowlist
 
-#### MASVS-CODE-4.2 — Prevent SQL Injection in Content Providers
+#### MASVS-CODE-4.2 - Prevent SQL Injection in Content Providers
 
 Content Provider `query()`, `update()`, `delete()` operations use parameterized queries with `selectionArgs`. Java code examples showing secure vs insecure patterns.
 
-#### MASVS-CODE-4.3 — Prevent Path Traversal in File Operations
+#### MASVS-CODE-4.3 - Prevent Path Traversal in File Operations
 
 The app validates file paths received from intents, content URIs, or user input. When implementing `ContentProvider.openFile()`, the resolved path is validated to be within the expected base directory. Java code example with canonical path validation.
 
-#### MASVS-CODE-4.4 — Prevent Zip Path Traversal (ZipSlip)
+#### MASVS-CODE-4.4 - Prevent Zip Path Traversal (ZipSlip)
 
 When extracting ZIP archives, the app validates that each `ZipEntry` name does not contain path traversal sequences (`../`).
 
 **Rationale:** Zip path traversal (ZipSlip) allows an attacker to overwrite arbitrary files on the filesystem by crafting ZIP entries with `../../` in their names.
 
-#### MASVS-CODE-4.5 — Sanitize Data Before WebView Loading
+#### MASVS-CODE-4.5 - Sanitize Data Before WebView Loading
 
 Data loaded into WebViews via `loadUrl()`, `loadData()`, `loadDataWithBaseURL()`, or `evaluateJavascript()` is sanitized for HTML/JavaScript injection.
 
 **Rationale:** Unsanitized data in WebView content enables XSS within the app's WebView context. If a JavaScript interface bridge is present, XSS escalates to native code execution.
 
-#### MASVS-CODE-4.6 — Validate Deep Link Parameters
+#### MASVS-CODE-4.6 - Validate Deep Link Parameters
 
 Parameters received via deep links are validated against expected patterns, types, and ranges.
 
-**Rationale:** Deep links are externally accessible — any app or website can invoke them.
+**Rationale:** Deep links are externally accessible - any app or website can invoke them.
 
-#### MASVS-CODE-4.7 — Handle Deserialization Safely
+#### MASVS-CODE-4.7 - Handle Deserialization Safely
 
 The app avoids Java serialization (`Serializable`) for untrusted data. If `Parcelable` objects are received from untrusted sources, the app uses explicit class parameters for `getParcelableExtra()` (API 33+).
 
 **Rationale:** Java deserialization can trigger arbitrary code execution via gadget chains.
 
-#### MASVS-CODE-4.8 — Validate NFC and Bluetooth Input
+#### MASVS-CODE-4.8 - Validate NFC and Bluetooth Input
 
 If the app processes NFC (NDEF messages) or Bluetooth data, all received data is validated.
 

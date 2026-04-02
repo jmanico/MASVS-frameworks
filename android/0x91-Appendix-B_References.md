@@ -24,19 +24,19 @@
 - [Google Tink Cryptographic Library](https://developers.google.com/tink)
 - [Android Key Attestation](https://developer.android.com/privacy-and-security/security-key-attestation)
 - [SQLCipher for Android](https://www.zetetic.net/sqlcipher/sqlcipher-for-android/)
-- [RFC 9180 — Hybrid Public Key Encryption (HPKE)](https://www.rfc-editor.org/rfc/rfc9180)
+- [RFC 9180 - Hybrid Public Key Encryption (HPKE)](https://www.rfc-editor.org/rfc/rfc9180)
 
 ## Authentication
 
-- [RFC 8252 — OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252)
-- [RFC 7636 — Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636)
-- [RFC 9449 — Demonstration of Proof-of-Possession (DPoP)](https://www.rfc-editor.org/rfc/rfc9449)
+- [RFC 8252 - OAuth 2.0 for Native Apps](https://www.rfc-editor.org/rfc/rfc8252)
+- [RFC 7636 - Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636)
+- [RFC 9449 - Demonstration of Proof-of-Possession (DPoP)](https://www.rfc-editor.org/rfc/rfc9449)
 - [FIDO2 / WebAuthn Specification](https://fidoalliance.org/specifications/)
 - [Android Passkey Developer Guide](https://developer.android.com/identity/sign-in/credential-manager)
 
 ## Industry Standards
 
-- [NIST SP 800-163 — Vetting the Security of Mobile Applications](https://csrc.nist.gov/publications/detail/sp/800-163/rev-1/final)
+- [NIST SP 800-163 - Vetting the Security of Mobile Applications](https://csrc.nist.gov/publications/detail/sp/800-163/rev-1/final)
 - [CIS Android Benchmarks](https://www.cisecurity.org/benchmark/google_android)
 - [EU Cyber Resilience Act](https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act)
 
@@ -45,5 +45,5 @@
 - [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/)
 - [CycloneDX SBOM Standard](https://cyclonedx.org/)
 - [Frida Dynamic Instrumentation Toolkit](https://frida.re/)
-- [jadx — DEX to Java Decompiler](https://github.com/skylot/jadx)
-- [apktool — APK Reverse Engineering](https://apktool.org/)
+- [jadx - DEX to Java Decompiler](https://github.com/skylot/jadx)
+- [apktool - APK Reverse Engineering](https://apktool.org/)

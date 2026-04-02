@@ -26,9 +26,9 @@ This standard is organized into eight control groups, each in its own chapter fi
 
 Each chapter contains three sections:
 
-1. **Overview** — landscape, architecture diagrams, and API reference tables
-2. **Controls** — detailed sub-requirements with rationale and Android references
-3. **Training-Aligned Requirements** — additional testable requirements derived from OWASP/Manicode mobile security training
+1. **Overview** - landscape, architecture diagrams, and API reference tables
+2. **Controls** - detailed sub-requirements with rationale and Android references
+3. **Training-Aligned Requirements** - additional testable requirements derived from OWASP/Manicode mobile security training
 
 ## How to Contribute
 

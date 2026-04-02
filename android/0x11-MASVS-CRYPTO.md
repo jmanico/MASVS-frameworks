@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cryptography is fundamental to protecting user data on Android, where physical device access is a realistic threat. Android provides the AndroidKeyStore for hardware-backed key storage, supports modern algorithms through `java.security` and `javax.crypto`, and offers Google Tink as a high-level cryptographic library. This category ensures the app uses strong cryptography with proper key management, leveraging Android's hardware security capabilities.
+Cryptography is fundamental to protecting user data on Android, where physical device access is a realistic threat. Android provides the AndroidKeyStore for hardware-backed key storage, supports modern algorithms through `java.security` and `javax.crypto`, and offers Google Tink as a high-level cryptographic library. Make sure the app uses strong cryptography with proper key management, using Android's hardware security capabilities.
 
 ## Android Cryptographic Architecture
 
@@ -52,8 +52,8 @@ Cryptography is fundamental to protecting user data on Android, where physical d
 
 ## OWASP Mobile Top 10 2024 Mapping
 
-- **M10 — Insufficient Cryptography:** Directly addressed by both controls
-- **M1 — Improper Credential Usage:** Addressed by MASVS-CRYPTO-1.4, MASVS-CRYPTO-2.1
+- **M10 - Insufficient Cryptography:** Directly addressed by both controls
+- **M1 - Improper Credential Usage:** Addressed by MASVS-CRYPTO-1.4, MASVS-CRYPTO-2.1
 
 ---
 
@@ -65,11 +65,11 @@ The app employs current strong cryptography and uses it according to industry be
 
 ### Description
 
-Cryptography is critical for protecting user data on Android, where physical access to the device is a realistic threat model. Android provides platform cryptographic APIs (`java.security`, `javax.crypto`) and hardware-backed cryptographic operations via the AndroidKeyStore. This control ensures the app uses only strong, current algorithms with correct parameters and avoids the many pitfalls that lead to weak or broken cryptographic implementations on Android.
+Cryptography is critical for protecting user data on Android, where physical access to the device is a realistic threat model. Android provides platform cryptographic APIs (`java.security`, `javax.crypto`) and hardware-backed cryptographic operations via the AndroidKeyStore. Make sure the app uses only strong, current algorithms with correct parameters and avoids the many pitfalls that lead to weak or broken cryptographic implementations on Android.
 
 ### Android Sub-Requirements
 
-#### MASVS-CRYPTO-1.1 — Use Approved Cryptographic Algorithms Only
+#### MASVS-CRYPTO-1.1 - Use Approved Cryptographic Algorithms Only
 
 The app uses only the following approved algorithms and modes:
 
@@ -86,29 +86,29 @@ The app uses only the following approved algorithms and modes:
 
 **Prohibited:** DES, 3DES, RC4, Blowfish, MD5, SHA-1 for signatures, ECB block mode, RSA with PKCS#1 v1.5 padding for encryption, any custom/proprietary cipher.
 
-#### MASVS-CRYPTO-1.2 — Never Use ECB Block Mode
+#### MASVS-CRYPTO-1.2 - Never Use ECB Block Mode
 
 The app never uses AES in ECB mode (`KeyProperties.BLOCK_MODE_ECB`). ECB encrypts identical plaintext blocks to identical ciphertext blocks, leaking patterns.
 
 **Rationale:** ECB mode is the default in many `Cipher.getInstance()` calls when no mode is specified (provider-dependent). Always specify the full transformation string: `"AES/GCM/NoPadding"`.
 
-#### MASVS-CRYPTO-1.3 — Generate IVs and Nonces Securely
+#### MASVS-CRYPTO-1.3 - Generate IVs and Nonces Securely
 
 All initialization vectors (IVs) and nonces are generated using `SecureRandom` (which delegates to the kernel CSPRNG on Android). IVs are never hardcoded, reused across encryptions, or derived deterministically from predictable input.
 
-**Rationale:** IV/nonce reuse in GCM mode is catastrophic — it enables key recovery. AES-GCM requires a unique 96-bit nonce for every encryption operation with the same key.
+**Rationale:** IV/nonce reuse in GCM mode is catastrophic - it enables key recovery. AES-GCM requires a unique 96-bit nonce for every encryption operation with the same key.
 
 **Android References:**
-- `SecureRandom` — backed by `/dev/urandom` on Android
+- `SecureRandom` - backed by `/dev/urandom` on Android
 - For AndroidKeyStore: the Keystore provider generates IVs internally; retrieve via `Cipher.getIV()` after `init()`
 
-#### MASVS-CRYPTO-1.4 — Do Not Hardcode Cryptographic Keys
+#### MASVS-CRYPTO-1.4 - Do Not Hardcode Cryptographic Keys
 
 The app does not contain hardcoded cryptographic keys, passwords, or secrets in source code, XML resources, `strings.xml`, `BuildConfig` fields, native libraries (`.so` files), or the `assets/` directory.
 
 **Rationale:** Hardcoded keys are extractable from the APK via `apktool`, `jadx`, or `strings` on native libraries. Any secret embedded in the APK should be considered public.
 
-#### MASVS-CRYPTO-1.5 — Use the AndroidKeyStore Provider for Cryptographic Operations
+#### MASVS-CRYPTO-1.5 - Use the AndroidKeyStore Provider for Cryptographic Operations
 
 All cryptographic operations on sensitive data use keys stored in the AndroidKeyStore (`KeyGenerator.getInstance(algorithm, "AndroidKeyStore")` or `KeyPairGenerator.getInstance(algorithm, "AndroidKeyStore")`).
 
@@ -119,7 +119,7 @@ All cryptographic operations on sensitive data use keys stored in the AndroidKey
 - `KeyPairGenerator.getInstance("EC", "AndroidKeyStore")`
 - `KeyStore.getInstance("AndroidKeyStore")`
 
-#### MASVS-CRYPTO-1.6 — Verify Hardware-Backed Key Storage
+#### MASVS-CRYPTO-1.6 - Verify Hardware-Backed Key Storage
 
 The app verifies that cryptographic keys are hardware-backed by checking `KeyInfo.getSecurityLevel()` returns `SECURITY_LEVEL_TRUSTED_ENVIRONMENT` or `SECURITY_LEVEL_STRONGBOX`. If hardware backing is unavailable, the app degrades gracefully with appropriate risk acceptance.
 
@@ -128,13 +128,13 @@ The app verifies that cryptographic keys are hardware-backed by checking `KeyInf
 - `KeyInfo.getSecurityLevel()` (API 31+)
 - `KeyInfo.isInsideSecureHardware()` (deprecated but available on older APIs)
 
-#### MASVS-CRYPTO-1.7 — Use SecureRandom for All Random Number Generation
+#### MASVS-CRYPTO-1.7 - Use SecureRandom for All Random Number Generation
 
 All security-sensitive random values (session tokens, nonces, salts, key material) are generated using `java.security.SecureRandom`. The app does not use `java.util.Random`, `Math.random()`, or `System.currentTimeMillis()` for security-sensitive purposes.
 
 **Rationale:** `java.util.Random` uses a predictable linear congruential generator. `SecureRandom` on Android delegates to the kernel CSPRNG (`/dev/urandom`).
 
-#### MASVS-CRYPTO-1.8 — Avoid Insecure Cipher.getInstance() Calls
+#### MASVS-CRYPTO-1.8 - Avoid Insecure Cipher.getInstance() Calls
 
 Every `Cipher.getInstance()` call specifies the full transformation string including algorithm, mode, and padding (e.g., `"AES/GCM/NoPadding"`). The app never calls `Cipher.getInstance("AES")` without specifying mode and padding, as the default varies by provider and may select ECB.
 
@@ -150,25 +150,25 @@ The app performs key management according to industry best practices.
 
 ### Description
 
-Even strong cryptographic algorithms are compromised by poor key management. On Android, the platform provides the AndroidKeyStore system, hardware-backed key storage (TEE and StrongBox), and key attestation for remote verification. This control ensures cryptographic keys are properly generated, stored, rotated, and destroyed throughout their lifecycle using Android-specific key management facilities.
+Even strong cryptographic algorithms are compromised by poor key management. On Android, the platform provides the AndroidKeyStore system, hardware-backed key storage (TEE and StrongBox), and key attestation for remote verification. Make sure cryptographic keys are properly generated, stored, rotated, and destroyed throughout their lifecycle using Android-specific key management facilities.
 
 ### Android Sub-Requirements
 
-#### MASVS-CRYPTO-2.1 — Generate Keys Inside the AndroidKeyStore
+#### MASVS-CRYPTO-2.1 - Generate Keys Inside the AndroidKeyStore
 
-Symmetric and asymmetric keys are generated directly inside the AndroidKeyStore using `KeyGenerator` or `KeyPairGenerator` with the `"AndroidKeyStore"` provider, not generated externally and then imported. This ensures the key material never exists in app process memory.
+Symmetric and asymmetric keys are generated directly inside the AndroidKeyStore using `KeyGenerator` or `KeyPairGenerator` with the `"AndroidKeyStore"` provider, not generated externally and then imported. Make sure the key material never exists in app process memory.
 
 **Android References:**
 - `KeyGenerator.getInstance("AES", "AndroidKeyStore")` with `KeyGenParameterSpec`
 - `KeyPairGenerator.getInstance("EC", "AndroidKeyStore")` with `KeyGenParameterSpec`
 
-#### MASVS-CRYPTO-2.2 — Restrict Key Purpose
+#### MASVS-CRYPTO-2.2 - Restrict Key Purpose
 
 Each key is generated with the minimum necessary purposes via `KeyGenParameterSpec.Builder(alias, purpose)`. Encryption keys use `PURPOSE_ENCRYPT | PURPOSE_DECRYPT`. Signing keys use `PURPOSE_SIGN | PURPOSE_VERIFY`. Keys are never generated with `PURPOSE_ENCRYPT | PURPOSE_SIGN` combined.
 
 **Rationale:** Multi-purpose keys increase the attack surface. A key used for both encryption and signing may be vulnerable to cross-protocol attacks.
 
-#### MASVS-CRYPTO-2.3 — Bind Keys to User Authentication
+#### MASVS-CRYPTO-2.3 - Bind Keys to User Authentication
 
 Keys protecting high-value data require user authentication before use. The app configures:
 - `setUserAuthenticationRequired(true)`
@@ -177,19 +177,19 @@ Keys protecting high-value data require user authentication before use. The app 
 
 **Rationale:** Without authentication binding, any code running as the app's UID can use the key. Authentication binding ensures the user is physically present.
 
-#### MASVS-CRYPTO-2.4 — Set Key Validity Periods
+#### MASVS-CRYPTO-2.4 - Set Key Validity Periods
 
 Keys have defined validity periods using `setKeyValidityStart()` and `setKeyValidityEnd()` or `setKeyValidityForOriginationEnd()` / `setKeyValidityForConsumptionEnd()` to enforce key rotation schedules.
 
 **Rationale:** Unbounded key lifetimes increase the window for key compromise. Expired keys force the application to generate fresh key material.
 
-#### MASVS-CRYPTO-2.5 — Invalidate Keys on Biometric Enrollment Changes
+#### MASVS-CRYPTO-2.5 - Invalidate Keys on Biometric Enrollment Changes
 
 Keys bound to biometric authentication are configured with `setInvalidatedByBiometricEnrollment(true)` (the default) so that adding new fingerprints or face enrollments invalidates existing keys.
 
 **Rationale:** If a new biometric is enrolled (potentially by an attacker who has device access), previously created keys should not be usable with the new biometric.
 
-#### MASVS-CRYPTO-2.6 — Use Key Attestation for Remote Verification
+#### MASVS-CRYPTO-2.6 - Use Key Attestation for Remote Verification
 
 For high-security use cases (e.g., payment, identity), the app generates a key pair with an attestation challenge from the server and sends the attestation certificate chain for server-side verification. The server:
 1. Verifies the certificate chain signature
@@ -203,13 +203,13 @@ For high-security use cases (e.g., payment, identity), the app generates a key p
 - Attestation certificate chain: `KeyStore.getCertificateChain(alias)`
 - Google attestation root certificates (ECDSA P-384 root rotation begins February 2026)
 
-#### MASVS-CRYPTO-2.7 — Delete Keys When No Longer Needed
+#### MASVS-CRYPTO-2.7 - Delete Keys When No Longer Needed
 
 The app deletes cryptographic keys from the AndroidKeyStore when they are no longer needed (e.g., user logout, account deletion, key rotation) using `KeyStore.deleteEntry(alias)`.
 
 **Rationale:** Residual keys in the KeyStore persist across app updates and reinstalls (if the app is not uninstalled). Orphaned keys are unnecessary attack surface.
 
-#### MASVS-CRYPTO-2.8 — Never Export Key Material from Hardware
+#### MASVS-CRYPTO-2.8 - Never Export Key Material from Hardware
 
 The app does not attempt to export private or secret key material from hardware-backed storage. Keys generated in the AndroidKeyStore with `setIsStrongBoxBacked(true)` or hardware TEE backing are non-exportable by design.
 
@@ -270,7 +270,7 @@ The app MUST NOT contain hardcoded encryption keys, API keys, or secrets in sour
 
 #### CRYPTO-ANDROID-2.2: Key Generation in Hardware
 
-Cryptographic keys MUST be generated inside Android Keystore (TEE or StrongBox), not imported from software. This ensures key material never exists in app process memory.
+Cryptographic keys MUST be generated inside Android Keystore (TEE or StrongBox), not imported from software. Make sure key material never exists in app process memory.
 
 **Testable:** Verify `KeyGenParameterSpec.Builder` is used with `setKeySize()` and key is generated via `KeyGenerator` or `KeyPairGenerator` with "AndroidKeyStore" provider.
 

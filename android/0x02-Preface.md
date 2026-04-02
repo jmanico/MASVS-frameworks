@@ -1,12 +1,12 @@
 # Preface
 
-The upstream OWASP MASVS is intentionally platform-agnostic — it defines *what* to verify, not *how* on a specific OS. This project takes each MASVS control and expands it into concrete, testable Android sub-requirements that reference specific APIs, manifest attributes, configuration files, and platform behaviors.
+The upstream OWASP MASVS is intentionally platform-agnostic - it defines *what* to verify, not *how* on a specific OS. This project takes each MASVS control and expands it into concrete, testable Android sub-requirements that reference specific APIs, manifest attributes, configuration files, and platform behaviors.
 
 ## Why Android-Specific Requirements?
 
 Android's security model is unique. Hardware-backed keystores, the Intent IPC system, Network Security Configuration, scoped storage, BiometricPrompt, Play Integrity API, and dozens of other platform mechanisms require Android-specific guidance that a platform-agnostic standard cannot provide.
 
-Developers, auditors, and pentesters need requirements they can directly act on — not abstract goals that require translation into platform-specific implementations.
+Developers, auditors, and pentesters need requirements they can directly act on - not abstract goals that require translation into platform-specific implementations.
 
 ## Scope
 
